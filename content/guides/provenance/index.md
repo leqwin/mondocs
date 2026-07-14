@@ -7,9 +7,9 @@ Every image can carry a record of where it came from and what you know
 about it. All of it is edited from rows on the detail page, in the right side panel and below the
 image.
 
-![A detail page with sources, commentary and metadata](detail.png)
-
 ## Sources
+
+![The Sources rows and the panel a source expands into](sources.png)
 
 A source is a link to where the image exists online - a booru post, an
 artist page. An image can carry several; monloader pushes and
@@ -40,11 +40,18 @@ you want to remember, whatever the source rows say.
 
 A free-text note on the image, for you only (shortcut `e n`).
 
+![The personal note and annotations under the image](note.png)
+
 ## Annotations
 
 Annotations are positioned boxes drawn on the image with a text each (the way boorus annotate translation bubbles). Booru lookups import the
 post's notes as annotations; you can also draw your own from the
 detail page. They render as hover overlays on the image.
+
+The note and your own annotations sit under the image; annotations a
+booru lookup pulled in stay on their source's panel. Hovering an
+annotation in either list highlights its box on the image, and
+**[hide annotations]** clears the overlay.
 
 ## Setting sources in bulk
 

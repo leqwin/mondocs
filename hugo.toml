@@ -16,3 +16,7 @@ enableDefault = true
 
 [markup.highlight]
 noClasses = false
+
+[[cascade]]
+  [cascade._build]
+    publishResources = false

@@ -37,7 +37,7 @@
   </div>
   <footer id="footer">
     <span>documentation for monbooru and its addons</span>
-    <span>AGPL-3.0-or-later</span>
+    <span>{{ with os.ReadFile "REPOSITORY.md" }}<a href="{{ trim . " \n" }}" target="_blank" rel="noopener">mondocs</a> &middot; {{ end }}AGPL-3.0-or-later</span>
   </footer>
   <script>
     addEventListener('keydown', function (e) {

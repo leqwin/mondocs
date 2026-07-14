@@ -28,6 +28,8 @@ the label or removes the label from them.
 
 ## The Collections page
 
+![A collection and its members on the Collections page](collections-page.png)
+
 The Collections page lists every collection with its member count.
 From there you can:
 

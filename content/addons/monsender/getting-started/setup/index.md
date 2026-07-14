@@ -42,7 +42,7 @@ gets its access token; there is no field to paste one into.
    token, and shows "paired with monloader" with a green connection
    dot.
 
-   ![The options page after pairing](options-paired.png)
+   ![The extension's monloader section once paired](options-paired.png)
 
 If you deny the request in monloader, or let it expire, the options
 page says so; click **connect to monloader** again. The wait

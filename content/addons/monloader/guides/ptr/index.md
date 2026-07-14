@@ -9,8 +9,6 @@ alone, using a local copy of the
 (the PTR) - a community-maintained database of billions of tag-to-file
 mappings. It is off by default and downloads nothing until you enable it.
 
-![The PTR page before enabling](ptr.png)
-
 This is the offline companion to the online [lookup chain](../lookup/index.md): the
 booru lookup is instant and needs no local data, but only finds files still
 hosted on a booru; the PTR also knows files that were deleted or never
@@ -34,6 +32,8 @@ re-synced at any time.
 
 ## Enabling it
 
+![The PTR page before enabling](ptr-disabled.png)
+
 1. Mount a dedicated volume at `/ptr` (there is a commented block in the
    shipped `docker-compose.yml` and `monloader.container`). The PTR page
    warns while the data path does not exist: without a volume mounted there,
@@ -49,6 +49,8 @@ stopped. The confirmed **delete ptr data** button (in the settings ptr
 section) turns the lookup off and reclaims the disk. Once caught up, the
 page also shows how far in time the synced data reaches ("data through
 ...").
+
+![The PTR page once the index has caught up](ptr-synced.png)
 
 ## Using it
 

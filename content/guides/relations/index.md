@@ -24,7 +24,7 @@ page. When monloader pushes a booru post that declares a parent post,
 the pair is linked automatically as a derivative once both are in the
 gallery.
 
-[Collections](../collections.md) are a separate, lighter grouping
+[Collections](../collections/index.md) are a separate, lighter grouping
 mechanism outside the relation graph.
 
 ## Finding candidate pairs
@@ -61,6 +61,8 @@ default - the collection already relates them. A per-collection
 back in.
 
 ## The swipe session
+
+![One pair in a relations session](session.png)
 
 **Relations -> Start a session** walks the queue pair by pair. Each
 pair renders side by side with the Hamming distance (how close the

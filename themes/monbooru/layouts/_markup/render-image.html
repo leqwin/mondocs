@@ -2,7 +2,14 @@
 {{- $src := $u.String -}}
 {{- if not $u.IsAbs -}}
   {{- $path := strings.TrimPrefix "./" $u.Path -}}
-  {{- with or (.PageInner.Resources.Get $path) (resources.Get $path) -}}
+  {{- $img := or (.PageInner.Resources.Get $path) (resources.Get $path) -}}
+  {{- if strings.HasSuffix $path ".png" -}}
+    {{- $webp := printf "%s.webp" (strings.TrimSuffix ".png" $path) -}}
+    {{- with or (.PageInner.Resources.Get $webp) (resources.Get $webp) -}}
+      {{- $img = . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $img -}}
     {{- $src = .RelPermalink -}}
   {{- end -}}
 {{- end -}}

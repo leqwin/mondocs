@@ -5,7 +5,7 @@ weight: 10
 
 ## Sending URLs to the queue
 
-![The queue page with a finished search job](queue.png)
+![The queue with a re-submitted post, a capped tag search, and a pool](queue.png)
 
 The home screen is a single command bar. Paste a URL and press Enter; the
 job is queued and you land on the queue screen to follow it. Anything a
