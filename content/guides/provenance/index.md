@@ -4,7 +4,7 @@ weight: 105
 ---
 
 Every image can carry a record of where it came from and what you know
-about it. All of it is edited from rows on the detail page, below the
+about it. All of it is edited from rows on the detail page, in the right side panel and below the
 image.
 
 ![A detail page with sources, commentary and metadata](detail.png)

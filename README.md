@@ -6,9 +6,7 @@ local image collection, and its two optional addons:
 - **monloader** - a companion downloader and reverse-lookup service
 - **monsender** - a browser extension that sends pages to monloader
 
-Start reading at [content/_index.md](content/_index.md), or jump
-straight to an addon: [monloader](content/addons/monloader/_index.md),
-[monsender](content/addons/monsender/_index.md).
+Start reading [here](https://leqwin.github.io/mondocs/index.html).
 
 ## License
 
