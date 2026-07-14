@@ -1,0 +1,4 @@
+name = "monbooru"
+license = "AGPL-3.0-or-later"
+description = "Dark theme matching the monbooru UI"
+min_version = "0.146.0"

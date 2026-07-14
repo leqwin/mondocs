@@ -1,0 +1,24 @@
+{{ define "main" }}
+<article class="doc">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+</article>
+{{ if .File }}
+{{ $prev := "" }}{{ $next := "" }}
+{{ if not .IsSection }}
+  {{ $pages := .CurrentSection.RegularPages }}
+  {{ range $i, $p := $pages }}
+    {{ if eq $p $ }}
+      {{ if gt $i 0 }}{{ $prev = index $pages (sub $i 1) }}{{ end }}
+      {{ if lt (add $i 1) (len $pages) }}{{ $next = index $pages (add $i 1) }}{{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ if or $prev $next }}
+<nav class="pagenav">
+  <span>{{ with $prev }}<a href="{{ .RelPermalink }}">&larr; {{ .Title }}</a>{{ end }}</span>
+  <span>{{ with $next }}<a href="{{ .RelPermalink }}">{{ .Title }} &rarr;</a>{{ end }}</span>
+</nav>
+{{ end }}
+{{ end }}
+{{ end }}

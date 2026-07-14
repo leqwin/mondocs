@@ -1,0 +1,13 @@
+{{ $current := .current }}
+{{ range .section.Pages }}
+{{ if .IsSection }}
+<li class="tree-branch">
+  <a href="{{ .RelPermalink }}"{{ if eq $current . }} class="active"{{ end }}>{{ .Title }}</a>
+  <ul>
+    {{ partial "tree.html" (dict "section" . "current" $current) }}
+  </ul>
+</li>
+{{ else }}
+<li><a href="{{ .RelPermalink }}"{{ if eq $current . }} class="active"{{ end }}>{{ .Title }}</a></li>
+{{ end }}
+{{ end }}

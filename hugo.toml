@@ -1,0 +1,18 @@
+baseURL = '/'
+languageCode = 'en'
+title = 'monbooru docs'
+theme = 'monbooru'
+
+relativeURLs = true
+uglyURLs = true
+
+disableKinds = ['taxonomy', 'term', 'rss', 'sitemap']
+
+[markup.goldmark.renderHooks.image]
+enableDefault = true
+
+[markup.goldmark.renderHooks.link]
+enableDefault = true
+
+[markup.highlight]
+noClasses = false
