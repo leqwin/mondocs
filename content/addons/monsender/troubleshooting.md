@@ -24,13 +24,29 @@ connection:
   **connect to monloader** again, then approve the request in
   monloader under **Settings -> monsender**.
 
-## "host access was not granted"
+## "host access not granted"
 
 The extension can only talk to an origin you have approved. If you
 dismissed or declined the browser's permission prompt when saving the
-URL, every call fails and the options page shows "allow host access
-(save first)". Click **save** or **connect to monloader** again and
-accept the prompt this time.
+URL, or revoked the permission later, every call fails. The popup says
+"host access not granted" and points you at options; the options page
+says "allow host access (save first)". Either way the fix is the same:
+open options, click **save** or **connect to monloader**, and accept
+the prompt this time.
+
+As because a missing permission looks exactly
+like a dead server from the browser's side: both are just a failed
+request. If monloader is running and the popup still says it cannot be
+reached, check the permission before you go looking at the server.
+
+## An image is missing from a scan
+
+The chooser only lists what monbooru can store: jpg, png, gif and webp
+images, mp4 and webm video. An svg logo, an avif or heic photo, or an
+mkv clip is left out, because monloader refuses those before it starts
+downloading. Nothing is wrong; there is just nowhere for that file to
+go. Tiny images are dropped too - see
+[min image size](settings/index.md).
 
 ## After changing the monloader URL
 

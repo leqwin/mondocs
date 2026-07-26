@@ -33,6 +33,11 @@ many rows they touched; Vacuum and Free memory report space reclaimed.
   category (e.g. `general:nintendo` and `copyright:nintendo`). Legal,
   but usually means two sources disagreed; the count links to the Tags
   page's Conflicts filter where both sides can be merged.
+- **Find folded duplicates** (Scan): pair each tag an older pull stored
+  folded (like `fate_grand_order`) with the corrected spelling that now
+  supersedes it (`fate/grand_order`), for the Tags page's Folded
+  duplicates filter. Refresh the affected images first so the corrected
+  spelling is present; the scan only pairs spellings you already have.
 - **Re-extract metadata**: re-run SD/ComfyUI metadata extraction on
   every image, re-probe video durations, and re-parse comic archives'
   `ComicInfo.xml`.

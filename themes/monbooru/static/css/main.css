@@ -170,7 +170,7 @@ a:hover { text-decoration: underline; }
   border-radius: 3px;
 }
 
-.doc h1, .doc h2, .doc h3, .doc h4 { font-family: var(--font-mono); line-height: 1.4; }
+.doc h1, .doc h2, .doc h3, .doc h4 { font-family: var(--font-mono); line-height: 1.4; scroll-margin-top: 24px; }
 .doc h1 {
   font-size: 22px;
   letter-spacing: 1px;
@@ -186,6 +186,40 @@ a:hover { text-decoration: underline; }
 }
 .doc h3 { font-size: 15px; margin: 28px 0 10px; }
 .doc h4 { font-size: 14px; margin: 22px 0 8px; color: var(--fg-dim); }
+
+/* Section anchors */
+.doc .anchor {
+  position: relative;
+  margin-left: 8px;
+  color: var(--fg-dim);
+  font-weight: normal;
+  opacity: 0;
+  pointer-events: none;
+}
+.doc h2:hover .anchor,
+.doc h3:hover .anchor,
+.doc h4:hover .anchor,
+.doc .anchor:focus-visible,
+.doc .anchor.copied {
+  opacity: 1;
+  pointer-events: auto;
+}
+.doc .anchor:hover { color: var(--link); text-decoration: none; }
+.doc .anchor.copied::after {
+  content: "copied";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 8px;
+  padding: 0 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--fg-dim);
+  font-size: 11px;
+  white-space: nowrap;
+}
 
 .doc p, .doc ul, .doc ol, .doc table, .doc pre, .doc blockquote { margin-bottom: 14px; }
 .doc ul, .doc ol { padding-left: 26px; }

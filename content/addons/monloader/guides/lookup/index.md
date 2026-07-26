@@ -5,18 +5,17 @@ weight: 40
 
 Reverse lookup answers "where does this file come from, and what are its
 tags?" from the file itself, without a URL. monloader walks a chain of
-sources you configure - exact hash searches on the boorus, image-similarity
-services, and optionally the local [Hydrus PTR index](../ptr/index.md) - and folds
+sources you configure: exact hash searches on the boorus, image-similarity
+services, and optionally the local [Hydrus PTR index](../ptr/index.md) and folds
 what it finds back into monbooru.
 
 ![The lookup chain in Settings](lookup-chain.png)
 
 You reach it two ways:
 
-- **From monbooru**: the "fetch tags" button on an image asks monloader to
-  find tags for a file monbooru already holds and merge them in. The
-  monbooru-side view is in
-  [monbooru's lookup guide](../../../../guides/lookup/index.md).
+- **From monbooru**: the lookup actions on an image ask monloader to find tags for
+  a file monbooru already holds and merge them in. The monbooru-side view
+  is in [monbooru's lookup guide](../../../../guides/lookup/index.md).
 - **From monloader**: paste a file's md5 (bare or as `md5:<hash>`) into the
   add bar to import the booru post carrying that file, like any single-post
   download.
@@ -34,7 +33,7 @@ source that answers wins. A source is one of two kinds:
   misses.
 - **A similarity service**: danbooru's IQDB instance (`iqdb`) or SauceNAO
   (`saucenao`). These find visually matching posts, including re-encodes, by
-  uploading the image's thumbnail (a few KB - never the original file) and
+  uploading the image's thumbnail and
   answering with candidate posts and 0-100 scores. The best candidate at or
   above the **min similarity** floor (default 80%) is then fetched through
   gallery-dl like any pasted URL.
@@ -84,7 +83,7 @@ labeled by its host.
 When no source holds the file at all, the item ends `hash_not_found`, and
 its message lists every source asked and why it missed or was skipped. A
 similarity service that found nothing usable lists its closest candidates
-with their scores - under the floor, or on a site monloader cannot fetch -
+with their scores 
 so a near-miss stays visible and you can judge whether the floor is too
 high.
 
@@ -99,9 +98,9 @@ add bar.
 ## The PTR as a backend
 
 With the [Hydrus PTR index](../ptr/index.md) enabled, monloader can also answer from
-its local sha256-keyed copy of the PTR - offline, and covering files that
-were deleted from the boorus or never posted there. monbooru's "fetch tags"
-button runs every enabled backend: the PTR first when it is on, then the
-online chain, with both results folded into one merge note. The add bar
+its local sha256-keyed copy of the PTR (offline, and covering files that
+were deleted from the boorus or never posted there). monbooru drives it
+per image (the PTR panel's **Pull tags**) or in batch. The add bar
 shows at a glance which lookups are available: the booru chain (hover to see
-the queried sources in order) and the sha256 lookup with its sync state.
+the queried sources in order) and the Public Tag Repository lookup with its
+sync state.

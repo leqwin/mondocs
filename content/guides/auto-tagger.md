@@ -33,7 +33,7 @@ column to tune it, and per category:
 
 - **Threshold** overrides the global threshold for that category. For
   example, raise `character` to 0.85 to suppress false-positive
-  character tags while keeping `general` permissive. Empty cells fall
+  character tags (confidence < 85%) while keeping `general` permissive. Empty cells fall
   back to the global value.
 - **Max tags** caps how many tags the tagger may emit for that
   category on one image, keeping the highest-scoring ones. Empty cells

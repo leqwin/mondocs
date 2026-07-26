@@ -78,6 +78,8 @@ default_distance      = 4        # find-pairs Hamming distance (0..12);
                                  # lower = fewer, surer pairs
 default_session_order = "smallest_distance_first"  # or largest_file_first / random
 incremental_on_ingest = true     # probe each new image for near-duplicates
+tag_pairs             = true     # also queue pairs that share rare tags
+tag_pair_threshold    = 0.85     # how strong a tag match has to be (0.5..1)
 ```
 
 Most of these are edited from the Settings page. The tagger blocks are
@@ -141,7 +143,9 @@ config file:
   5120). Large comic archives are what need the headroom.
 - **Default upload folder** - where browser uploads land in the
   gallery.
-- **Watch folder** - the filesystem watcher on/off.
+- **Watch folder** - the filesystem watcher on/off. Saving takes the
+  setting straight away, but the watcher itself only starts when
+  monbooru does, so restart after switching it on.
 - **Page size** - images per gallery page (default 40).
 - **Thumbnails** - square (cropped) or real aspect ratio.
 

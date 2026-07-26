@@ -20,11 +20,14 @@ The PTR has no per-hash query API - by design, so its server cannot learn
 which files you have. Using it means streaming the repository's whole tag
 history once and keeping a local index:
 
-- **Initial download**: thousands of small update files, fetched over
-  hours.
-- **Local index**: a database on its own volume - expect more than 70 GB.
+- **Initial download**: thousands of update files, fetched and indexed
+  over days.
+- **Local index**: a database on its own volume (expect more than 70 GB).
   monloader refuses to start the initial sync when the volume has less than
-  `min_free_gb` (default 80) free.
+  `min_free_gb` (default 70) free. Building the index writes all over the
+  database rather than end to end, which a spinning disk serves poorly:
+  on an HDD the initial sync can take weeks, so prefer SSD-backed storage
+  for the volume.
 - **Steady state**: one small update roughly every day once caught up.
 
 The index is a rebuildable cache of public data: it can be deleted and
@@ -41,34 +44,84 @@ re-synced at any time.
    recreated.
 2. Open **PTR** in the top bar and read the summary: the repository address,
    the data path, and your free space against what the initial sync needs.
-3. Click **enable ptr sync** and leave it to catch up (hours). The page
-   shows live progress: counts, disk use, and download rate.
+3. Click **enable ptr sync** and leave it to catch up (days). The page
+   shows live progress: a bar weighted by each update's real size (early
+   updates are small).
 
 You can **pause** and **resume** the sync at any time; it picks up where it
-stopped. The confirmed **delete ptr data** button (in the settings ptr
-section) turns the lookup off and reclaims the disk. Once caught up, the
-page also shows how far in time the synced data reaches ("data through
-...").
+stopped. To turn the lookup off without losing the index, uncheck **enabled**
+in the settings ptr section. The **delete ptr data** button beside
+it is the one that reclaims the disk. Once caught up, the page also shows how far in time the synced data
+reaches ("data through ...").
 
 ![The PTR page once the index has caught up](ptr-synced.png)
 
+## Starting from a snapshot
+
+The initial sync is the slow part. To skip it, you can seed the index from a snapshot instead of streaming the whole history yourself. The
+snapshot is monloader's own index file with the replay cursor baked in,
+so enabling picks up from the snapshot's date and only fetches the days
+since.
+
+1. Download the latest snapshot from the
+   [Hydrus PTR tag mappings dataset](https://huggingface.co/datasets/Leqwin/hydrus-ptr-tag-mappings)
+   on Hugging Face - a `ptr-snapshot-<date>.sqlite.zst` file (about 22 GB
+   compressed). Check it against the published `SHA256SUMS` if you like.
+2. Decompress it: `zstd -d ptr-snapshot-<date>.sqlite.zst`. It expands to
+   about 68 GB, so make sure the volume has the room first.
+3. With monloader stopped, put the file in the `/ptr` volume as
+   `ptr.sqlite`. In docker the container runs as uid 1000, so
+   `chown 1000:1000 ptr.sqlite` if the owner does not already match.
+4. Start monloader and enable the PTR (if it was already enabled, it
+   resumes on its own). It syncs the days between the snapshot and now,
+   then reaches caught up.
+
 ## Using it
 
-The index answers as soon as it has data, even mid-sync (on whatever it has
-so far, which the results may reflect).
+The index answers once it is caught up, and not before: a half-built copy
+would answer a few of a file's tags as if they were all of them. While it is
+syncing or paused, PTR lookups are refused and a combined lookup runs the
+online boorus alone, saying so in its miss trail.
 
 - **Tag lookup**: the PTR becomes a backend of the
   [reverse lookup](../lookup/index.md). monbooru shows its PTR lookup option only
-  while monloader reports the PTR enabled; each lookup appears as a job on
-  the queue page. A PTR match carries tags but no source URL - the PTR maps
-  hashes to tags, not to pages.
+  while monloader reports the index synced; each lookup appears as a job on
+  the queue page.
 - **Aliases and implications**: the synced alias and implication graph is
   queryable (up to 500 tags per call), so monbooru can sweep its own tag
   list and propose aliases and implications drawn from the PTR. 
 
 The tags come back in monbooru form: hydrus namespaces are mapped onto
-monbooru categories and names are normalized the same way as
-[downloaded tags](../mapping.md).
+monbooru categories (`creator:` to artist, `series:` to copyright, and
+so on) and names are normalized the same way as
+[downloaded tags](../mapping.md). Namespaces with no monbooru meaning -
+the PTR is full of bookkeeping like `title:`, `filename:` or
+`pixiv work:`, whose values are ids or prose rather than tags - are
+dropped whole rather than leaking into your general category.
+
+## Contributing back
+
+The PTR is a donated community database. Once it is synced, you can also
+give back the tags you curate by hand: push tags your images carry that
+the PTR lacks, and petition tags that are wrong.
+
+Contributing needs a personal PTR account. On the PTR page, the
+**account** card explains it and creates one in a click: the account is
+made anonymously from the PTR itself, uploads are attributed to it on
+the server for some time and then anonymized, and volunteer
+moderators (janitors) review your suggestions. Losing the key means
+losing the account, so the card lets you reveal your key to back it up.
+Creating an account never happens on its own, and monloader only makes one.
+
+You do the actual contributing from monbooru (see [Contributing to the PTR](../../../../guides/ptr-contributions/index.md)).
+monbooru decides what is worth sending; monloader checks whether the PTR
+needs it, uploads it under your account, and keeps the record. The
+**contributions** card on the PTR page is that record: what was sent,
+what a janitor approved or removed, what is still pending. Each row
+links back to monbooru. A send that failed part-way
+leaves its items here with a retry; a tag add you made can be rescinded
+(monloader petitions it back off), but suggestions and petitions cannot
+be taken back once a janitor has them.
 
 ## Configuration
 
@@ -80,11 +133,10 @@ The `[ptr]` block in `monloader.toml`; every key also has a
 enabled     = false
 data_path   = "/ptr"                          # dedicated index volume
 address     = "https://ptr.hydrus.network:45871"
-access_key  = ""                              # empty = the PTR's public read-only key
+access_key  = ""                              # empty = the public read-only key; a personal account key goes here
 fetch_sleep = 1.0                             # seconds between update downloads
-min_free_gb = 80                              # refuse the initial sync below this free space
+min_free_gb = 70                              # refuse the initial sync below this free space
+commit_sleep = 1.0                            # seconds between contribution uploads
 ```
 
-These keys are also editable from the settings page's **ptr** section; the
-sync engine reads them at boot, so changes apply on restart. The sync
-lifecycle itself (enable, pause, resume) lives on the PTR page.
+These keys are also editable from the settings page's **ptr** section.

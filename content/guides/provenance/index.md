@@ -16,11 +16,15 @@ artist page. An image can carry several; monloader pushes and
 [lookups](../lookup/index.md) add them automatically, and **[+ add]**
 records one by hand.
 
-Each source row offers **[open]** (visit the URL), **[edit]**,
-**[refresh]** (re-pull the post's tags, commentary and notes through
-monloader - see [Lookup](../lookup/index.md)), and **[x]** to remove
-it. **[set primary]** picks the source that search's `source:` filter
-labels and batch refresh follow first.
+Each source is two lines: the source and its match hints with
+**[open]** on the first, the actions beneath. The actions are
+**[edit]**, **[refresh]** (re-pull the post's tags, commentary and
+notes through monloader - see [Lookup](../lookup/index.md)),
+**[upgrade]** (shown when the source serves a different file than
+your local copy; replaces the file in place - see
+[Lookup](../lookup/index.md#running-lookups-from-monbooru)), and
+**[x]** to remove it. **[set primary]** picks which source leads the
+list and provides the image's headline source label.
 
 A source expands into its own panel holding two more fields pulled
 from booru posts (or edited by hand):
@@ -29,12 +33,6 @@ from booru posts (or edited by hand):
   (a pixiv or twitter link, typically).
 - **Commentary** - the artist's title and description as the booru
   recorded them.
-
-## Original source
-
-Separate from per-source originals, the image itself has one
-**Original source** field (shortcut `e o`) for the canonical origin
-you want to remember, whatever the source rows say.
 
 ## Personal note
 
@@ -53,8 +51,21 @@ booru lookup pulled in stay on their source's panel. Hovering an
 annotation in either list highlights its box on the image, and
 **[hide annotations]** clears the overlay.
 
-## Setting sources in bulk
+## Which sources gave a tag
 
-The gallery's Actions chooser and the selection batch bar both carry a
-**Set source** action: it files (or removes) a source label across the
-whole search or selection - useful after a bulk import from one site.
+The tag list under the image groups tags by category. When more than
+one source agreed on the same tag - say you added it and a later booru
+refetch confirmed it, or a PTR lookup pulled it in too - the tag shows
+a small **+N** beside it. Hover it to see every source and the date it
+last confirmed the tag. A tag still renders once, under whichever
+source added it first; the +N just tells you who else agrees.
+
+A refetch never deletes tags. When a source stops listing a tag it
+contributed earlier, the tag moves to a **Stale tags added by ...**
+group so you can see it is no longer part of that source's current
+state and remove it yourself if you agree. If a later refetch lists it
+again, it moves back under the source's regular group.
+
+Any group holding more than one tag carries a **[×]** next to its
+heading, which removes that group and nothing else - clearing a
+stale group leaves the same source's current tags in place.

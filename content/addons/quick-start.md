@@ -34,7 +34,7 @@ Then open `http://localhost:8081`.
 3. In monbooru, open **Settings -> Monloader** and approve the request.
 4. Back in monloader, pick a **default gallery** and save.
 
-That is the whole handshake; the apps exchange tokens themselves. From
+The apps then exchange tokens themselves. From
 now on monloader pushes downloads into that gallery, and monbooru's
 footer shows a "connected to monloader" light.
 

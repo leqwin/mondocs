@@ -21,7 +21,7 @@ profile for anything else gallery-dl supports.
   profile only improves the result.
 
 [gallery-dl's supported-sites list](https://github.com/mikf/gallery-dl/blob/master/docs/supportedsites.md)
-is the full menu. How each site's metadata is translated is in
+shows the full list. How each site's metadata is translated is in
 [metadata mapping](../mapping.md).
 
 ![The sites tables on the Settings page](settings-sites.png)

@@ -67,14 +67,17 @@ monsender extension can branch on them:
 | `file_too_large` | monbooru rejected the upload for size |
 | `monbooru_unreachable` | the push got no HTTP response (connect / timeout) |
 | `monbooru_rejected` | monbooru returned a 4xx/5xx other than the duplicate 200 |
-| `hash_mismatch` | a metadata refetch found the source no longer serves the file monbooru stored, so nothing was merged |
+| `hash_mismatch` | a metadata refetch returned a file that does not match the one monbooru stored, so nothing was merged; on a replace job, the downloaded file did not match the md5 the site claims, so nothing was pushed |
 | `hash_not_found` | a hash lookup found no site (or the PTR index) holding the hash |
 | `ptr_unavailable` | a PTR lookup was requested while the PTR backend is off; normally refused as a 409 when the lookup is enqueued |
+| `ptr_syncing` | a PTR lookup was requested while the index is still building; normally refused as a 409 when the lookup is enqueued |
+| `already_exists` | a replace job's downloaded file already exists in the gallery as another image; monbooru refuses the swap and records the two as a potential-duplicate pair instead |
+| `wrong_type` | a replace job aimed at an image whose row is an archive or video, which cannot be swapped this way |
 | `canceled` | the job was canceled while the item was in flight |
 
 The job's `summary` aggregates its items:
-`{ created, duplicate, enriched, skipped, failed, canceled, total }`. The
-outcomes themselves are described in
+`{ created, duplicate, enriched, replaced, skipped, failed, canceled, total }`.
+The outcomes themselves are described in
 [downloading](guides/downloading/index.md#per-item-outcomes).
 
 ## Building from source
@@ -136,5 +139,5 @@ A profile's fields:
 | `category_overrides` | per-suffix tag-category remaps baked into the profile |
 | `rating_overrides` | per-value rating remaps baked into the profile |
 | `default_rating` | rating used only when the source gives none |
-| `needs_tags` | a generic-family site that needs gallery-dl's `tags: true` to emit per-category tags (one extra request per post, e.g. sankaku) |
-| `has_notes` | a generic-family site whose extractor emits note boxes with gallery-dl's `notes: true` (e.g. sankaku); the note-carrying booru families get it by family |
+| `needs_tags` | a generic-family site that needs gallery-dl's `tags: true` to emit per-category tags (one extra request per post |
+| `has_notes` | a generic-family site whose extractor emits note boxes with gallery-dl's `notes: true`; the note-carrying booru families get it by family |

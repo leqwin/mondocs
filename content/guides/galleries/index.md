@@ -50,8 +50,7 @@ metadata only.
 ## Import
 
 **Import** accepts a `.db`, `.sqlite`, `.json` or `.zip` produced by
-Export, plus two foreign formats: a Blombooru `full_backup.zip` and a
-zipped Hydrus export folder (see [Migrating](../migrating.md)). A `.json`
+Export, or a foreign format by another supported application (see [Migrating](../migrating.md)). A `.json`
 upload can be a full export or a bare light `tags.json`; monbooru
 detects which.
 
@@ -67,7 +66,7 @@ Two modes:
   image files, the gallery's source folder is wiped and repopulated
   too; a bare `.db` / `.json` leaves the source files in place. You
   type the gallery's name to confirm. Refused on the active and the
-  default gallery - switch or demote first.
+  default gallery (switch or demote first).
 
 After an import monbooru switches to the imported gallery and rebuilds
 its thumbnails in the background. Import is refused while any

@@ -2,3 +2,7 @@ public/
 resources/
 bin/
 .hugo_build.lock
+
+.frontmatter/
+.vscode/
+frontmatter.json

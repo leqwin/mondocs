@@ -24,13 +24,12 @@ shows a permission prompt asking to allow access to that one origin
 (the wording varies by browser). 
 
 If you decline, the options page shows a warning that monloader cannot
-be reached until you allow it. Nothing is broken; click **save** or
+be reached until you allow it. Click **save** or
 **connect to monloader** again to get the prompt back, and accept it.
 
 ## 3. Connect to monloader
 
-Click **connect to monloader**. This is the only way the extension
-gets its access token; there is no field to paste one into.
+Click **connect to monloader**. 
 
 1. The extension sends a pairing request to your monloader.
 2. Open monloader in another tab, go to **Settings -> monsender**, and

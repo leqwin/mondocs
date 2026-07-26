@@ -3,9 +3,9 @@ title: Migrating
 weight: 90
 ---
 
-Coming from Hydrus Network or Blombooru? monbooru's import dialog
+If you're already an user of another application similar to monbooru, monbooru's import dialog
 (**Settings -> Galleries -> Import**) accepts an export archive from
-either one and translates it on the fly. The compatibility layer
+a supported application and translates it on the fly. The compatibility layer
 carries images and tags only - it is meant to move your library and
 its tagging over, not every application-specific detail.
 

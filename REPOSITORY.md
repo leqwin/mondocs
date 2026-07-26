@@ -1,1 +1,1 @@
-https://github.com/leqwin/mondocs
+https://github.com/monbooru/mondocs

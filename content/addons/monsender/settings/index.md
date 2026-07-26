@@ -22,10 +22,18 @@ Three buttons:
 
 - **connect to monloader** - starts the pairing that gets the access
   token: request, approve in monloader under **Settings -> monsender**,
-  done.
+  done. While it waits the button reads **cancel pairing**; click it
+  again to give up rather than wait out the ninety seconds.
 - **test connection** - checks reachability and, when a token is
-  stored, that monloader accepts it.
-- **save** - stores the URL and the sending options below.
+  stored, that monloader accepts it. If you have typed a URL without
+  saving it, this only checks that the host answers: the stored token
+  belongs to the instance that issued it and is not sent anywhere else.
+- **save** - stores the URL and the sending options below. A URL your
+  browser cannot make sense of is refused with "not a valid URL"
+  rather than saved.
+
+Beside the connection indicator, **token: set** or **token: not set**
+says whether a token is stored. The token itself is never shown.
 
 The connection indicator below the buttons shows the result:
 
@@ -53,4 +61,4 @@ The connection indicator below the buttons shows the result:
 - **previews** - show thumbnails in the scan chooser. On by default.
   Off means the chooser loads no remote images at all and shows file
   names instead; see
-  [previews and privacy](../guides/scanning/index.md#previews).
+  [previews](../guides/scanning/index.md#previews).

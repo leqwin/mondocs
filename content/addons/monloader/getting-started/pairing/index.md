@@ -44,6 +44,17 @@ touches gallery files.
    Approving mints a scoped `monsender (paired)` token that the extension
    stores.
 
+## Pausing the link
+
+The dot in monloader's footer says whether monbooru answered; clicking it
+while it is green holds the link: monloader stops calling monbooru and no new
+download is accepted until you click the dot again. That covers
+both ways in: the add bar refuses a pasted URL, and so does the browser
+extension, which sends over the API. The pairing itself is untouched, so
+resuming needs no re-pair. monbooru's footer carries the same switch for the
+other direction. Requests coming the other way - monbooru asking for tags or a
+refetch - still work, and downloads already queued are not affected.
+
 ## Paired tokens
 
 Paired tokens appear in **Settings -> Authentication** next to any tokens

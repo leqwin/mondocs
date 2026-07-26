@@ -16,8 +16,11 @@ labels them so you know before you send:
   monbooru with its tags, rating, and source. The popup labels this
   "booru - tags will be included".
 - A direct image file (a CDN URL like `cdn.example/.../abcd.jpg`) is
-  just downloaded, so it lands with no tags, rating, or source. The
-  popup labels this "direct image - no tags".
+  just downloaded, so it lands with no tags or rating. The popup
+  labels this "direct image - no tags". When it is sent from the
+  right-click menu or the page scanner, the page you were on is
+  recorded as its source in monbooru, so you can find your way back
+  to where the image came from.
 
 When you have the choice, send the post page. Which sites count as
 supported is monloader's call; see
@@ -30,8 +33,7 @@ the label above, and a **send page** button:
 
 - On a recognized site or a direct image, the label above says so and
   **send page** is enabled. Click it and the result shows inline
-  within a few seconds: "added -> monbooru #1234", "already in your
-  library", or a failure reason. If monloader takes longer than the
+  within a few seconds: "added -> monbooru #1234". If monloader takes longer than the
   configured wait, the popup shows "queued" and the
   [queue view](queue.md) tracks it from there.
 - On other normal websites there is no label, but **send page** stays
@@ -68,14 +70,14 @@ file itself is sent, the extension picks the largest version the page
 offers, not the downscaled thumbnail being displayed. This menu entry
 always works; it is never greyed out.
 
+When the page is what got sent but you had pointed at an image - say a
+post that holds a finished work plus process shots - a small note
+appears next to the image for a few seconds: "sent the post page
+[only this image]". Ignore it and the whole post downloads as usual.
+Click **only this image** and the post download is called off; just
+the file you pointed at is sent instead, with the page recorded as
+its source. To pick several images from one page, use the
+[page scanner](scanning/index.md).
+
 Since the send happens without the popup, the outcome shows on the
 toolbar badge, as with the shortcut.
-
-## Re-sending is safe
-
-Sending something monbooru already has never creates a copy. A
-re-sent search skips the posts monloader already fetched ("already
-fetched (archive)"); a re-sent single post is re-fetched on purpose,
-and any new tags from the source merge into the image monbooru
-already holds - that is how you refresh one post. See the
-[queue view](queue.md) for what each outcome means.

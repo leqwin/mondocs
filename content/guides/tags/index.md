@@ -20,8 +20,11 @@ The tag input sits on the image detail page.
 - Autocomplete suggestions appear as you type; navigate with the
   up/down arrows and pick with Enter.
 
-Tag names are lowercase: `a-z`, `0-9` and
-`_ ( ) ! @ # $ . ~ + - : ? < > = ^`, up to 200 characters.
+Tag names are lowercase and can hold many characters (accented
+letters, CJK, Cyrillic, punctuation...), except
+space, `"` and `*` (those three belong to the search syntax), up to 200
+characters. Spaces fold to underscores; everything else is kept, so
+`girls'_frontline`, `fate/grand_order`, and `東方project` work.
 
 To tag many images at once, use **Add tags manually** in the gallery's Actions
 chooser (applies to the whole current search) or in the batch bar
@@ -55,42 +58,72 @@ usage count and controls.
 - **Imply** (selection bar) declares "tag X also implies tag Y":
   adding X to an image automatically fans Y out as a dimmed implied
   tag. Implied tags are real tags for search purposes. Implications
-  can also be edited on the tag detail page.
+  can also be edited on the tag detail page, where each relation
+  section (aliases pointing at the tag, implied by, implies) has
+  its own inline add. 
 - Each row also carries an inline category dropdown for a quick
   recategorization without the dialog.
-- **PTR lookup** (shown when a paired monloader has the Hydrus PTR
-  enabled) pulls each selected tag's known aliases and implications
-  from the Public Tag Repository into your catalog. See
-  [Lookup](../lookup/index.md).
+- **Find aliases and implications** (shown when a paired monloader has
+  the Hydrus PTR enabled) pulls each selected tag's known relations from
+  the Public Tag Repository into your catalog: aliases pointing at it,
+  the tags that imply it, and the tags it implies.
+  Selecting all matching tags with no filter active sweeps the whole
+  catalog in one background job. Nothing is removed or sent. A re-run
+  also reconciles what was pulled before: relations the PTR no longer
+  lists stay in your catalog but move under a **stale, added by the
+  Public Tag Repository** heading on the tag detail page, so you can
+  drop them yourself if you agree. See [Lookup](../lookup/index.md).
+  A relation naming a tag you have made an alias of something else is
+  skipped and counted in the summary.
 
-The sidebar filters the catalog by category, type, origin, creation
-date, conflicts, and zero-usage tags (show, hide, or only).
+The sidebar filters the catalog by category, type, used by, origin,
+creation date, conflicts, zero-usage tags (show, hide, or only), stale
+usage, and folded duplicates. **Stale** finds tags a source dropped on its last
+refresh: **Has stale** for any dropped usage, **Fully stale** for tags
+whose every use was dropped (safe to delete). The Usage column shows a
+dim `(N stale)` next to the count when some uses are stale.
+
+**Folded duplicates** helps clean up tags an older pull stored folded (before monbooru accepted the full character set) like `fate_grand_order`
+where the source really has `fate/grand_order`. Refresh the affected
+images so the corrected spelling arrives, run **Find folded duplicates**
+from Settings -> Maintenance, then open the filter: it lists each old
+spelling next to the corrected tag now superseding it, and **Merge into
+corrected spelling** in the selection bar collapses the ones you pick
+(the old name stays as an alias).
 
 Back on an image's detail page, **Remove tag(s)** strips tags in bulk
-from that one image: all of them, or only those a specific source or
-auto-tagger applied.
+from that one image: all of them, only those a specific source or
+auto-tagger applied, or only the stale ones a source dropped.
+
+A row's **See detail** button opens the tag's own page: who applies it
+(you, a booru, an auto-tagger), usage over time, aliases pointing at
+it, implications in both directions, and its newest images.
+
+Four columns help you audit the catalog: **Origin** shows which
+source created each tag (you, a booru site, the PTR, an auto-tagger),
+**Used by** every source that has since applied it, **Created** when it
+entered the catalog, and **Last used** when it was last applied to an
+image. Origin and Used by differ once a tag gets around: a tag danbooru
+invented and gelbooru later used reads danbooru under Origin and both
+under Used by. The Used by cell keeps to one line, so hover it to read
+the full list. The matching **Used by** filter in the sidebar is the
+way to ask "what does this booru actually tag with", where the Origin
+filter only answers "what did it introduce". The sidebar also filters
+by type (tags or aliases) and creation date, and a **Conflicts** filter
+lists names that live in more than one category so you can merge the
+sides.
+
+Tags are never deleted automatically: removing a tag's last image
+leaves the catalog row at zero usage. Delete rows explicitly from the
+Tags page when you want them gone.
 
 ## The Categories page
 
 **Categories** in the top menu manages the categories themselves: add
 your own, rename or delete custom ones, and recolor any of them -
 including the built-ins, which are marked "(built-in)" and cannot be
-renamed or deleted.
-
-A row's **See detail** button opens the tag's own page: who applies it
-(you, a booru, an auto-tagger), usage over time, aliases pointing at
-it, implications in both directions, and its newest images.
-
-Three columns help you audit the catalog: **Origin** shows which
-source created each tag (you, a booru site, the PTR, an auto-tagger),
-**Created** when it entered the catalog, and **Last used** when it was
-last applied to an image. The sidebar filters by type (tags or
-aliases), origin, and creation date, and a **Conflicts** filter lists
-names that live in more than one category so you can merge the sides.
-
-Tags are never deleted automatically: removing a tag's last image
-leaves the catalog row at zero usage. Delete rows explicitly from the
-Tags page when you want them gone.
+renamed or deleted. There are ten built-ins: general, character,
+artist, copyright, meta, rating, medium, person, year, and species.
 
 ## Ratings and the SFW ceiling
 

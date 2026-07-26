@@ -40,13 +40,8 @@ override any TOML key, is in [configuration](../configuration.md).
 | Mount | Purpose |
 |---|---|
 | `/config` | Persistent: `monloader.toml`, the managed `gallery-dl.json`, the gallery-dl download archive, and cookies files. |
-| `/ptr` | Optional: the local Hydrus PTR tag index, only if you enable the PTR lookup. Expect more than 70 GB. See [Hydrus PTR](../guides/ptr/index.md). |
+| `/ptr` | Optional: the local Hydrus PTR tag index, only if you enable the PTR lookup. Expect tens of GB. See [Hydrus PTR](../guides/ptr/index.md). |
 
 monloader also uses an internal `/work` directory as scratch space for
 downloads; files are deleted from it after each successful push (it doesn't need to be mounted). If you want
 it RAM-backed, give it a `tmpfs` mount instead.
-
-## Podman
-
-A Quadlet unit ships at `docker/monloader.container` in the monloader
-repository, with the same volumes and hardening as the compose service.

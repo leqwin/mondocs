@@ -24,18 +24,14 @@ formats: JPEG, PNG, WebP, GIF, MP4, WebM, and CBZ/ZIP comic archives.
 Duplicate filenames are auto-suffixed; a file you already have (same
 checksum) is recognized and not stored twice.
 
-While a file transfers the zone shows the percentage sent, then
-switches to **Processing...** while monbooru files it - useful when a
-multi-gigabyte comic archive takes a while to cross the network.
-
 ## Flipping between inbox and archived
 
 - **One image:** the detail page has an **In inbox** / **Archived**
   button left of the favorite star (keyboard: `i`).
 - **Many images:** the gallery's Actions chooser and the selection
-  batch bar each carry a **Toggle inbox** entry that flips every
-  targeted row - inbox rows become archived, archived rows become
-  inbox.
+  batch bar each carry an **Inbox** entry that flips
+  every targeted row - inbox rows become archived, archived rows
+  become inbox.
 
 ## Batch clusters
 

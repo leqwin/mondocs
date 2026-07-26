@@ -39,11 +39,6 @@
     <span>documentation for monbooru and its addons</span>
     <span>{{ with os.ReadFile "REPOSITORY.md" }}<a href="{{ trim . " \n" }}" target="_blank" rel="noopener">mondocs</a> &middot; {{ end }}AGPL-3.0-or-later</span>
   </footer>
-  <script>
-    addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape') return;
-      document.querySelectorAll('.lightbox-state:checked').forEach(function (c) { c.checked = false; });
-    });
-  </script>
+  <script src="{{ "js/main.js" | relURL }}"></script>
 </body>
 </html>

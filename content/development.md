@@ -78,6 +78,12 @@ CGO_ENABLED=1 go build -tags tagger -o monbooru ./cmd/monbooru
 ./monbooru -config /path/to/monbooru.toml
 ```
 
+A first run with no config file writes one full of defaults meant for
+the Docker image (`/gallery`, `/data`, `/models`). Outside a container
+those paths usually do not exist, so the first start fails and the log
+points you at the file it wrote: edit `gallery_path`, `data_path` and
+(optionally) `model_path` for your host and run it again.
+
 For the `-tags tagger` build, `libonnxruntime.so` must be reachable:
 on `LD_LIBRARY_PATH` or in `/usr/lib`, or pointed at with the
 `ORT_LIB_PATH` env var (absolute path to the `.so`). The Docker image

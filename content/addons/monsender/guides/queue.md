@@ -32,11 +32,6 @@ The counts use monloader's outcome words. In plain terms:
   reason is one of the [error messages](../troubleshooting.md).
 - **canceled** ("cancel") - stopped before it finished.
 
-A large search or pool that hits monloader's per-job limit has more
-to fetch. The row does not say "capped" in so many words - the tell is
-the extra actions it offers, **[continue]** and **[fetch all]** (and a
-single send reports "added, more available").
-
 ## Per-job actions
 
 Each row offers the actions that make sense for its state, as

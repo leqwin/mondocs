@@ -12,7 +12,7 @@ override tables in the config for the edge cases.
 ## Tags by category
 
 monbooru sorts tags into categories (general, character, artist, copyright,
-meta, medium, person, year). Boorus expose per-category tag lists, and each
+meta, medium, person, year, species). Boorus expose per-category tag lists, and each
 list is routed to the closest monbooru category:
 
 | Source tag category | monbooru category | Notes |
@@ -22,9 +22,9 @@ list is routed to the closest monbooru category:
 | character | character | |
 | copyright | copyright | |
 | meta / metadata | meta | gelbooru calls it `metadata` |
-| species (e621) | general | no monbooru equivalent |
-| lore (e621) | meta | |
-| contributor (e621) | artist | |
+| species | species | |
+| lore | meta | |
+| contributor | artist | |
 | circle / group | artist | doujin circle or group |
 | parody / series | copyright | the parodied or source work |
 | studio | copyright | production studio |
@@ -33,11 +33,10 @@ list is routed to the closest monbooru category:
 | invalid, deprecated | dropped | not real tags |
 | anything else | general | best-effort fallback |
 
-Tag names are normalized to monbooru's `lower_snake_case` before they are
-sent: lowercased, with any run of characters monbooru's tag rules reject
-collapsed to an underscore and the ends trimmed (`fate/grand_order` becomes
-`fate_grand_order`). A name with nothing representable left (a CJK-only
-name, for instance) is dropped.
+Tag names are normalized to the form monbooru stores before they are
+sent: lowercased, with spaces (and the two characters monbooru's search
+reserves, `"` and `*`) folded to underscores and the ends trimmed
+(`fate/grand order` becomes `fate/grand_order`).
 
 monbooru auto-creates tags it has not seen before; any it rejects come back
 as tag warnings, recorded on the queue item without failing the push.
@@ -66,14 +65,17 @@ rating. A real source rating always wins.
 
 | monbooru field | Value |
 |---|---|
-| `url` | the booru post page, built from the profile's post URL template (e.g. `https://danbooru.donmai.us/posts/{id}`) |
+| `url` | the post's own page. Curated sites build it from the profile's post URL template (e.g. `https://danbooru.donmai.us/posts/{id}`); a site without a profile uses the page link the extractor reports, falling back to the URL you submitted |
 | `source` | the site name, so filtering by `source:danbooru` works in monbooru |
 | `via` | `monloader`, recorded as the image's origin and as the tagger of each pushed tag |
 | target gallery | the site's per-source gallery, falling back to the default gallery |
 | `collection` / `collection_order` | the pool name and page order, when a pool is pushed as a collection |
 
 A direct link to a media file has no booru post behind it: the source is the
-file's host and the URL is the file URL itself.
+file's host and the URL is the file URL itself. The exception is a direct
+file sent along with the page it was found on (monsender does this): the
+page becomes the recorded URL and its host the source, so the image links
+back to where you actually saw it rather than to a bare CDN address.
 
 ## Commentary, original source, and notes
 

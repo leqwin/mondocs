@@ -5,9 +5,9 @@ weight: 10
 
 ## Quick start (Docker)
 
-1. Grab `docker/docker-compose.yml` from the monbooru repository and
+1. Grab [`docker/docker-compose.yml`](https://github.com/monbooru/monbooru/blob/main/docker/docker-compose.yml) from the monbooru repository and
    edit the volume paths so `/gallery`, `/data`, `/config` and
-   `/models` map to host folders you control.
+   `/models` map to your folders.
 2. `docker compose up -d`
 3. Open `http://localhost:8080`.
 

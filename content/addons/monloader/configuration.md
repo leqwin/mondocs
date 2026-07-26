@@ -23,6 +23,7 @@ api_token       = ""                     # set by pairing, or by hand for a manu
 web_url         = ""                     # browser-facing monbooru base for links; blank =
                                          # api_url for image links, monbooru link hidden
 default_gallery = ""                     # blank = monbooru's active gallery
+paused          = false                  # set by the footer light; holds the link without unpairing
 
 [downloader]
 concurrency            = 1               # worker goroutines; applies on restart
@@ -53,7 +54,7 @@ data_path   = "/ptr"
 address     = "https://ptr.hydrus.network:45871"
 access_key  = ""                         # empty = the PTR's public read-only key
 fetch_sleep = 1.0
-min_free_gb = 80
+min_free_gb = 70
 
 [lookup]                                 # the lookup chain's similarity stage
 min_similarity = 80                      # percent; candidates below are ignored
@@ -124,7 +125,7 @@ key:
 
 | Variable | Effect |
 |---|---|
-| `TZ` | Timezone name (e.g. `Europe/Paris`) for displayed timestamps. Defaults to `UTC`. Any IANA name works without extra packages. |
+| `TZ` | Timezone name (default `UTC`) for displayed timestamps. Any IANA name works. |
 
 ## Raw gallery-dl passthrough
 
@@ -138,7 +139,7 @@ the escape hatch for gallery-dl options monloader does not manage itself.
 Set `custom_css` in `[server]` to a file path and monloader serves it at
 `/custom.css`, linked after the bundled stylesheet, so a `:root` block there
 wins the cascade. One custom stylesheet can theme monbooru and monloader
-together: the tag-category color tokens are identical.
+together.
 
 ## Logo and title
 

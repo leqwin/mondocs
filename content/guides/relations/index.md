@@ -36,8 +36,7 @@ looks like, one that survives resizing and re-encoding) for every
 image and uses it to suggest near-duplicate pairs. The queue of
 suggestions fills from several triggers:
 
-- **Automatically on ingest** (the default; turn off with
-  `relations.incremental_on_ingest = false` in the config file): each
+- **Automatically on ingest**: each
   new image is probed against the index as it arrives, so fresh candidates appear on their
   own.
 - **Relations -> Find new pairs** scans images added since the last
@@ -50,7 +49,7 @@ suggestions fills from several triggers:
   the queue without a rebuild.
 
 How different two images may be and still get paired is set by
-**Settings -> Relations -> Find-pairs default distance** (default 4,
+**Settings -> Relations -> pHash matching distance** (default 4,
 range 0..12); lower means fewer, more confident pairs. If older images
 predate perceptual hashing, run **Settings -> Maintenance -> Compute
 perceptual hashes** once to backfill.
@@ -60,27 +59,76 @@ default - the collection already relates them. A per-collection
 **find relations** switch on the Collections page opts a collection
 back in.
 
+Archives (cbz/zip) are never paired this way. A book's perceptual hash
+is only its cover page, so a cover match says nothing about the pages
+inside. They are matched by shared tags instead (below); byte-identical
+copies still show up under **Duplicate files**.
+
+### Pairs that share rare tags
+
+A perceptual hash cannot see that a recolour, a redraw or a fan piece
+belongs with its original: the pixels are too different. Tags can.
+**Settings -> Relations -> Also queue pairs that share rare tags** is
+on by default, so every find-pairs run does a second pass that scores
+images against each other by the tags they have in common, weighting
+rare tags heavily and ignoring the ones everything carries. It is the
+same score as the [`similar:` search](../searching/index.md#images-with-similar-tags).
+
+It costs a full pass over the library on every run and only pays off
+once your images are tagged, so turn it off if your library is large
+and mostly untagged. **Tag similarity match strength** sets the bar for
+queueing a pair; the default of 0.85 is deliberately strict, since
+every queued pair is a decision you will have to make. Try
+`similar:<id>~0.85` in the search bar first to see what that means in
+your library.
+
+Tag matches are queued behind image matches, so a session still works
+through the confident pixel matches first.
+
 ## The swipe session
 
 ![One pair in a relations session](session.png)
 
 **Relations -> Start a session** walks the queue pair by pair. Each
-pair renders side by side with the Hamming distance (how close the
-fingerprints are) and the larger file on the left (bigger usually
-means more canonical). Decide the pair (duplicate, alternate, version,
-derivative, not related) or skip it; deciding also drops the pair's
-co-grouped rows so the session moves straight on. A metadata table
-compares the pair underneath; `W` swaps the two sides and `C` opens a
-compare slider.
+pair renders side by side. Decide the pair (duplicate, alternate,
+version, derivative, not related) or skip it; deciding also drops the
+pair's co-grouped rows so the session moves straight on. A metadata
+table compares the pair underneath; `W` swaps the two sides and `C`
+opens a compare slider.
 
-Session order is set under **Settings -> Relations**: smallest
-distance first (default, most confident first), largest file first
-(handy when merging into the best-quality original), or random.
+Between the two images sits what put the pair in front of you:
+
+- **distance N** - a perceptual-hash match, and how close. The larger
+  file goes on the left, since bigger usually means more canonical.
+- **tags similarity ~N%** - a tag match, and how strong. The older
+  image goes on the left instead, because these usually turn out to be
+  a variant or a based-on, and those read "right is based on left". The
+  comparison table also lists the shared tags that produced the score,
+  strongest first.
+- **phash N - tags similarity ~N%** - both detectors agree, which is
+  the strongest hint the queue can give you.
+- **reopened by you** - a pair you sent back with **review again**.
+
+Marking a pair a duplicate then asks whether to delete the duplicate's
+file. **Keep file** leaves both on disk, **Delete now** removes the
+duplicate's. When the duplicate carries tags the original lacks, the
+prompt also offers **Copy unique tags onto the original first** - the
+copy runs either way, so you can consolidate the tags and still keep
+both files.
+
+Two pickers above the pair shape the session without leaving it.
+**Found by** narrows the queue to one detector - **Near duplicate
+(pHash)** or **Tags similarity** - or back to **Both**, so you can
+clear the pixel matches in one sitting and leave the tag matches for
+later. **Order** switches between smallest distance first (most
+confident first), largest file first (handy when merging into the
+best-quality original), and random; the default order for new
+sessions is set under **Settings -> Relations**.
 
 ## Browsing what you declared
 
 **Relations -> Browse relations** lists every declared relation, one
-tab per type - Same image, Variants, Revision history, Based on, and
+tab per type: Same image, Variants, Revision history, Based on, and
 Not related (so a rejected pair can be found and undone). Rows sort by
 most recent, size, or when the original was added. From here you can
 unlink an edge, dissolve a group, and merge same-image groups by

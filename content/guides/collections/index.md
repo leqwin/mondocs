@@ -3,7 +3,7 @@ title: Collections
 weight: 70
 ---
 
-A collection is a named, ordered set of images: a comic told in
+A collection is a named, (optionally) ordered set of images: a comic told in
 loose pages, a photoset, an artist's series. It is a lighter grouping
 than a [relation](relations/index.md) - no original, no direction, just
 membership and an order. An image can belong to several collections at
@@ -33,8 +33,13 @@ the label or removes the label from them.
 The Collections page lists every collection with its member count.
 From there you can:
 
-- **Rename** a collection across all its members.
-- **Reorder** members.
+- **Rename** a collection across all its members. Renaming onto a name
+  that already exists merges the two: the incoming members keep their
+  order and land after the target's last page, so neither reading order
+  is scrambled.
+- **Reorder** members. In the reorder dialog, clicking a tile's
+  filename also renames that file on the spot: type the new name and
+  press Enter (Escape cancels).
 - **Dissolve** a collection: the images stay, the grouping goes.
 - Toggle **find relations** per collection. By default the
   near-duplicate pair finder skips pairs that share a collection

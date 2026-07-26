@@ -36,7 +36,7 @@ A few rules that apply everywhere:
 ## Tags and categories
 
 Tags live in categories (`general`, `character`, `artist`,
-`copyright`, `meta`, `rating`, `medium`, `person`, `year`, plus any
+`copyright`, `meta`, `rating`, `medium`, `person`, `year`, `species`, plus any
 you create).
 
 | Query | Meaning |
@@ -45,6 +45,7 @@ you create).
 | `cat:character` | Images with any tag in the given category. |
 | `tagged:true` / `tagged:false` | Images with at least one tag / with no tags. |
 | `autotagged:true` / `autotagged:false` | Images with at least one auto-tag / with none. |
+| `stale:any` / `stale:none` | Images that carry any tag a source dropped on its last refresh / none. `stale:tagname` narrows to one dropped tag; `-stale:tagname` excludes it. |
 | `tagcount:>=10` | Number of tags on the image. |
 | `rating:explicit` | Filter by rating: `general`, `sensitive`, `questionable`, `explicit`. |
 
@@ -76,7 +77,8 @@ See [Tags](../tags/index.md) for how ratings and the SFW ceiling work.
 | `folder:path/to` | Images in that folder or any subfolder beneath it. |
 | `folderonly:path/to` | Only images directly in that folder, no subfolders. Bare `folderonly:` means the gallery root alone. |
 | `folder:"path with spaces"` | Quote paths that contain spaces. |
-| `source:"source name"` | Images carrying that source. An image can have several sources; this matches any of them. Bare `source:` matches images with no source at all. |
+| `source:"source name"` | Images carrying that source. An image can have several sources; this matches any of them. |
+| `source:none` | Images with no source at all. Bare `source:` means the same; `source:any` matches images carrying at least one. |
 | `collection:"collection name"` | Images filed under that collection. Bare `collection:` matches images in no collection; `collection:any` matches images in at least one. |
 | `via:upload` | How the image was added: `ingest` (watcher or sync), `upload` (web form), `monloader` (pushed by a paired monloader), or any origin an API client supplied. |
 
@@ -107,6 +109,10 @@ See [AI metadata](../ai-metadata.md) for what monbooru extracts.
 | `date:2024-03-15` | Ingested on an exact date. |
 | `date:2024-03-15T19:23..2024-03-15T19:30` | Same, with hour (`THH`), minute (`THH:MM`) or second (`THH:MM:SS`) precision. |
 
+Dates read in your timezone (the `TZ` the app displays timestamps in),
+so `date:2024-03-15` means that calendar day where you live, not the
+UTC day.
+
 ## Relations and perceptual hash
 
 See [Relations](../relations/index.md) for what these mean.
@@ -125,6 +131,36 @@ See [Relations](../relations/index.md) for what these mean.
 | `relation:collection` | Image belongs to a collection. |
 | `relation:any` / `relation:none` | Has any declared relation / none. `any` includes collection membership. |
 
+## Images with similar tags
+
+A perceptual hash finds images that look alike. Tags find images that
+are alike in other ways: a recolour, a redraw, or a piece based on
+another one shares almost no pixels with its original but plenty of
+tags.
+
+| Query | Meaning |
+|---|---|
+| `similar:1042` | Images sharing at least one meaningful tag with image 1042, closest first. |
+| `similar:1042~0.7` | Only the ones scoring 0.7 or better. The score runs 0 to 1. |
+| `-similar:1042` | Everything except those. |
+
+The detail page's "Images with similar tags" panel has a
+`[more like this]` link that runs the first form for you.
+
+A shared tag counts for more when it is rare. Two images both tagged
+`1girl` tell you nothing, because half (all?) your library is; two images
+sharing `plaid_scarf` and an unusual pose are probably related. Tags
+naming who drew it or who is in it (artist, character, copyright)
+count for a little more still. The weights are fixed; the threshold is
+the part you tune.
+
+Scores are relative to your own library, so 0.85 has no universal
+meaning. You can set the threshold in the settings if you find too many false positives or on the contrary if you don't find enough matches. Tagging your library
+uniformly makes scores more consistent.
+
+An image with no tags, or only meta tags, has nothing to match on and
+returns nothing.
+
 ## Sort options
 
 The sort select sits next to the search bar; the direction select
@@ -135,6 +171,7 @@ next to it flips ascending/descending.
 | Newest | By ingest date, newest first (the default). |
 | File size | Largest first. |
 | Collection order | Group by collection alphabetically, then by each image's position in it. When the search pins a single `collection:`, results read in that collection's own order. |
+| Similarity | Closest tag match first. Appears once a `similar:` search is running, and such a search picks it automatically. |
 
 Random order is its own button next to the search bar (shortcut `R`):
 it shuffles the results, stays stable across page turns, and reshuffles

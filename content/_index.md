@@ -42,19 +42,19 @@ optional [addons](addons/_index.md).
   detection and a side-by-side review session.
 - [Multiple galleries](guides/galleries/index.md) in one instance, each with
   its own files and database, plus export, import and
-  [migration](guides/migrating.md) from Hydrus or Blombooru.
+  [migration](guides/migrating.md) from other similar applications.
 - Reverse [lookup](guides/lookup/index.md) of your images against boorus,
-  IQDB/SauceNAO and the Hydrus PTR, through a paired monloader.
+  IQDB/SauceNAO and the Hydrus PTR, through a paired monloader, and
+  [contributing tags back](guides/ptr-contributions/index.md) to the PTR.
 - A REST API with scoped tokens, covered in
   [Development](development.md).
 
 ## Where to go
 
-- [Install](getting-started/install.md) gets it running with Docker in
-  a few minutes; [First steps](getting-started/first-steps/index.md) walks
+- [Install](getting-started/install.md) gets it running with Docker; [First steps](getting-started/first-steps/index.md) to walk
   the UI.
-- The [guides](guides/_index.md) cover each feature in day-to-day terms.
-- [Configuration](configuration.md) has the environment variables,
+- The [guides](guides/_index.md) cover the main features.
+- [Configuration](configuration.md) has shows the environment variables,
   theming and advanced tagger setup.
 
 ## Addons
@@ -66,7 +66,7 @@ being present. Two optional companions extend it:
   downloads posts from booru sites into your collection with their
   tags, and runs reverse lookups on images you already have to
   backfill tags and sources. monbooru stays offline; monloader connects to the internet.
-- **[monsender](addons/monsender/_index.md)** adds the browser shortcut: an
+- **[monsender](addons/monsender/_index.md)** adds a shortcut between monbooru and monloader in your browser: it's an
   extension that sends the page you are viewing, or images picked from
   it, straight to monloader's download queue. It needs monloader.
 
