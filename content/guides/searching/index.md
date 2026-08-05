@@ -144,27 +144,24 @@ tags.
 | `similar:1042~0.7` | Only the ones scoring 0.7 or better. The score runs 0 to 1. |
 | `-similar:1042` | Everything except those. |
 
-The detail page's "Images with similar tags" panel has a
-`[more like this]` link that runs the first form for you.
+The `[more like this]` link on the detail page runs the first form
+for you. Each result thumbnail is badged with its match as a whole
+percent - the same number the `~` suffix takes: a thumbnail badged
+70% is exactly what `similar:1042~0.7` keeps.
 
-A shared tag counts for more when it is rare. Two images both tagged
-`1girl` tell you nothing, because half (all?) your library is; two images
-sharing `plaid_scarf` and an unusual pose are probably related. Tags
-naming who drew it or who is in it (artist, character, copyright)
-count for a little more still. The weights are fixed; the threshold is
-the part you tune.
+The score asks how much of the two images' tagging is the same: 1.0
+means they carry the same meaningful tags, 0.5 that about half lines
+up. Meta tags and tags most of your library carries are left out, and
+both sides are measured, so a picture with three tags cannot beat a
+well-tagged one just by being small. An image with no tags, or only
+meta tags, returns nothing.
 
-Scores are relative to your own library, so 0.85 has no universal
-meaning. You can set the threshold in the settings if you find too many false positives or on the contrary if you don't find enough matches. Tagging your library
-uniformly makes scores more consistent.
-
-An image with no tags, or only meta tags, has nothing to match on and
-returns nothing.
+This is a different score from the relations pair queue's rare tag
+similarity: that one looks for the same work under a different file,
+so it leans on rare tags, and the two report different percentages
+for the same pair on purpose.
 
 ## Sort options
-
-The sort select sits next to the search bar; the direction select
-next to it flips ascending/descending.
 
 | Sort | Meaning |
 |---|---|
@@ -173,14 +170,12 @@ next to it flips ascending/descending.
 | Collection order | Group by collection alphabetically, then by each image's position in it. When the search pins a single `collection:`, results read in that collection's own order. |
 | Similarity | Closest tag match first. Appears once a `similar:` search is running, and such a search picks it automatically. |
 
-Random order is its own button next to the search bar (shortcut `R`):
-it shuffles the results, stays stable across page turns, and reshuffles
-when clicked again. The heart button beside it (shortcut `F`) filters
-the current search to favorites.
+Random order (shortcut `R`) shuffles the results but stays stable
+across page turns; clicking again reshuffles. The heart button
+(shortcut `F`) filters the current search to favorites.
 
 ## Saved searches
 
-To keep a query around, run it, then open the **Actions** chooser next
-to the search bar and pick **Save search** (only shown while the
-search bar is non-empty). Saved searches appear in the sidebar; click
-one to run it, or its x button to delete it. They are per gallery.
+To keep a query around, run it and pick **Save search** in the
+**Actions** chooser. Saved searches appear in the sidebar and are per
+gallery.

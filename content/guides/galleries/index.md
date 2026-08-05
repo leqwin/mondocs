@@ -11,29 +11,26 @@ the name to switch when more than one is configured.
 
 ![Gallery management in Settings](settings-galleries.png)
 
-Manage them at **Settings -> Galleries**:
+Galleries are managed at **Settings -> Galleries**. The non-obvious
+points:
 
-- **Add**: give it a name and a path on disk (with Docker, a folder
-  you mounted into the container). The form also accepts an import
-  file (.db / .sqlite / .json / .zip) so you can create a populated
-  gallery in one shot. Adding switches the active gallery to the new
-  one for this session.
-- **Switch**: change the active gallery for this session. Not
-  persisted; the default is restored on restart.
-- **Set default**: the gallery that loads on startup.
-- **Rename**: give it a new name.
-- **Delete**: type the gallery name to confirm. The database and
-  thumbnails are erased; tick **Also delete the gallery folder
-  (source images)** to remove the source files too. The active,
-  default and last remaining gallery cannot be deleted - switch or
-  demote first.
+- **Add** takes a name and a path on disk (with Docker, a folder you
+  mounted into the container), and also accepts an import file
+  (.db / .sqlite / .json / .zip) so you can create a populated
+  gallery in one step.
+- Switching the active gallery is per session; the default gallery is
+  restored on restart.
+- **Delete** erases the database and thumbnails but leaves the source
+  images unless you also tick the folder option. The active, default
+  and last remaining gallery cannot be deleted - switch or demote
+  first.
 
 ## Export
 
 Each gallery row has an **Export** with three formats:
 
 - **db**: a consistent SQLite snapshot of the gallery database. The
-  natural full-fidelity backup.
+  format to pick for a backup.
 - **json**: one JSON document with every table, relations and
   collections included. Same fidelity, human-readable.
 - **light**: a portable `tags.json` listing `{sha256, path, tags}` per
@@ -83,12 +80,12 @@ gallery batch bar (selection or whole search) whenever more than one
 gallery is configured.
 
 The image is copied into the target gallery and re-ingested there, so
-it gets a fresh id and thumbnail. Its tags, rating, sources, artist
-commentary, annotations, note, original source and favorite come
-along. If the target already has the same file (matched by SHA-256),
-the transfer merges tags and provenance into that row instead of
-duplicating it, without overwriting a note, original source or
-favorite the row already has.
+it gets a fresh id and thumbnail. Its tags, rating, sources (each with
+its artist commentary and original link), annotations, note and
+favorite come along. If the target already has the same file (matched
+by SHA-256), the transfer merges tags and provenance into that row
+instead of duplicating it, without overwriting a note or favorite the
+row already has.
 
 Relations and collections are not carried over: they point at other
 images that may not exist in the target. The transferred image lands

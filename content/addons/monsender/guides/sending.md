@@ -16,68 +16,55 @@ labels them so you know before you send:
   monbooru with its tags, rating, and source. The popup labels this
   "booru - tags will be included".
 - A direct image file (a CDN URL like `cdn.example/.../abcd.jpg`) is
-  just downloaded, so it lands with no tags or rating. The popup
-  labels this "direct image - no tags". When it is sent from the
-  right-click menu or the page scanner, the page you were on is
-  recorded as its source in monbooru, so you can find your way back
-  to where the image came from.
+  just downloaded, so it lands with no tags or rating. When it is
+  sent from the right-click menu or the page scanner, the page you
+  were on is recorded as its source in monbooru, so you can find your
+  way back to where it came from.
 
 When you have the choice, send the post page. Which sites count as
-supported is monloader's call; see
+supported is decided by monloader; see
 [supported sites](../../monloader/guides/sites/index.md).
 
 ## The toolbar button
 
-Click the monsender icon. The popup shows the current page's URL with
-the label above, and a **send page** button:
+The popup shows the current page's URL with its label and a **send
+page** button. On an unlabeled site the button still works: the hint
+list covers the common cases, and monloader makes the real check - a
+send it cannot handle comes back as "not a supported site". Only
+pages that are not web addresses at all (browser-internal pages,
+local files) grey the button out.
 
-- On a recognized site or a direct image, the label above says so and
-  **send page** is enabled. Click it and the result shows inline
-  within a few seconds: "added -> monbooru #1234". If monloader takes longer than the
-  configured wait, the popup shows "queued" and the
-  [queue view](queue.md) tracks it from there.
-- On other normal websites there is no label, but **send page** stays
-  enabled: the hint list covers the common cases, and monloader has
-  the final say on whether it can extract anything. A send it cannot
-  handle just comes back as "not a supported site".
-- Only pages that are not web addresses at all (browser-internal
-  pages, local files) grey the button out.
+The result shows inline within a few seconds. If monloader takes
+longer than the configured wait, the popup shows "queued" and the
+[queue view](queue.md) tracks it from there.
 
 ## The keyboard shortcut
 
 Ctrl+Shift+L sends the current page straight away, no popup. The
 result shows on the toolbar icon instead: a badge counts the sends
-queued since you last opened the popup (a whole search counts as one),
-colored by the last outcome (green added, grey duplicate or skipped,
-indigo still queued, red failed), and shows a red "!" when a send
-queued nothing. Hovering the icon shows the last result as a tooltip;
-opening the popup clears the badge. The same gate applies as for the
-button.
+queued since you last opened the popup, colored by the last outcome
+(green added, grey duplicate or skipped, indigo still queued, red
+failed). Hovering the icon shows the last result; opening the popup
+clears the badge.
 
 ## Right-click an image or video
 
 Right-click any image or video and pick **Send to monloader**. The
 extension sends the best target for what you clicked:
 
-1. the post the media links to, if that link is a supported site (in a
-   thumbnail listing, this gets you the tagged post, not the thumb);
+1. the post the media links to, if that link is a supported site (in
+   a thumbnail listing, this gets you the tagged post, not the
+   thumb);
 2. otherwise the page you are on, if it is a supported site;
-3. otherwise the file itself, untagged.
+3. otherwise the file itself, untagged - the largest version the page
+   offers, not the downscaled thumbnail being displayed.
 
-So a right-click on a booru thumbnail sends the tagged post behind it,
-and a right-click on a random forum image sends the raw file. When the
-file itself is sent, the extension picks the largest version the page
-offers, not the downscaled thumbnail being displayed. This menu entry
-always works; it is never greyed out.
-
-When the page is what got sent but you had pointed at an image - say a
-post that holds a finished work plus process shots - a small note
-appears next to the image for a few seconds: "sent the post page
-[only this image]". Ignore it and the whole post downloads as usual.
-Click **only this image** and the post download is called off; just
-the file you pointed at is sent instead, with the page recorded as
-its source. To pick several images from one page, use the
-[page scanner](scanning/index.md).
+When the page is what got sent but you had pointed at an image - say
+a post that holds a finished work plus process shots - a note appears
+next to the image for a few seconds: "sent the post page [only this
+image]". Click **only this image** to call off the post download and
+send just that file instead. To pick several images from one page,
+use the [page scanner](scanning/index.md).
 
 Since the send happens without the popup, the outcome shows on the
 toolbar badge, as with the shortcut.

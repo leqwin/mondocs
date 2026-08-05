@@ -30,16 +30,15 @@ Then open `http://localhost:8081`.
 
 1. In monloader, go to **Settings -> monbooru**. The default api url
    `http://monbooru:8080` is right for the shared compose network.
-2. Click **connect to monbooru**.
+2. In the **pairing** section below, click **connect to monbooru**.
 3. In monbooru, open **Settings -> Monloader** and approve the request.
 4. Back in monloader, pick a **default gallery** and save.
 
-The apps then exchange tokens themselves. From
-now on monloader pushes downloads into that gallery, and monbooru's
-footer shows a "connected to monloader" light.
+The apps then exchange tokens themselves. From now on monloader
+pushes downloads into that gallery.
 
-To try it: paste a post URL from a booru site into monloader's queue page
-and watch it arrive in monbooru, tags included.
+To try it, paste a post URL from a booru site into monloader's queue
+page; the image lands in monbooru with its tags.
 
 ## 4. Add the browser extension
 
@@ -50,7 +49,7 @@ and watch it arrive in monbooru, tags included.
    machine, or your server's LAN address like
    `http://monloader.lan:8081`.
 3. Click **connect to monloader**, then approve the request in
-   monloader under **Settings -> monsender**.
+   monloader under **Settings -> pairing**.
 
 Now browse to a post on a supported site and press the toolbar button
 (or Ctrl+Shift+L). The page goes to monloader, downloads, and lands in

@@ -3,14 +3,14 @@ title: Migrating
 weight: 90
 ---
 
-If you're already an user of another application similar to monbooru, monbooru's import dialog
-(**Settings -> Galleries -> Import**) accepts an export archive from
-a supported application and translates it on the fly. The compatibility layer
-carries images and tags only - it is meant to move your library and
-its tagging over, not every application-specific detail.
+monbooru's import dialog (**Settings -> Galleries -> Import**)
+accepts an export archive from the applications below and translates
+it on the fly. The compatibility layer carries images and tags only -
+it moves your library and its tagging over, not every
+application-specific detail.
 
-Once you have produced the zip, drop it into the import dialog like
-any other archive and pick **Merge** or **Replace** on a gallery. See
+Once you have produced the zip, drop it into the import dialog and
+pick **Merge** or **Replace** on a gallery. See
 [Galleries](galleries/index.md#import) for what the two modes do.
 
 ## Hydrus Network
@@ -48,7 +48,7 @@ What lands in monbooru:
   | `year:` | `year` category |
   | any prefix naming a monbooru category (built-in or one you created) | that category |
   | bare token | `general` category |
-  | any other prefix (`species:`, `title:`, ...) | the tag lands in `general` with the prefix dropped |
+  | any other prefix (`title:`, `filename:`, ...) | the tag lands in `general` with the prefix dropped |
 
 **Not preserved:** Hydrus URLs, its native rating services, notes,
 file relationships, and any namespace monbooru has no category for

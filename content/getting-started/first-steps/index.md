@@ -3,98 +3,92 @@ title: First steps
 weight: 20
 ---
 
-## Add your first images
+You have monbooru running and an empty gallery. This page walks the
+basic loop once, with a handful of images: add them, tag them, find
+them by search, and archive them. Each step has a fuller guide page; the
+links point there.
+
+## Add a few images
 
 Two ways in:
 
-- **Point it at a folder.** The default gallery reads `/gallery`
-  (whatever host folder you mounted there). Copy files in, and the
-  watcher indexes them within seconds. Files that were already in the
-  folder before monbooru started are picked up by a sync: click the
-  sync icon at the top right (or the [Sync gallery] button the empty
-  gallery page offers) to walk the folder in one pass. Subfolders are
-  fine; monbooru keeps your folder structure and shows it as a tree in
-  the sidebar.
-- **Upload from the browser.** Open **Inbox** in the top menu. A drop
-  zone sits at the top of the grid: drag files in or pick them with
-  **Choose files**. Accepted formats are JPEG, PNG, WebP, GIF, MP4,
-  WebM, and CBZ/ZIP comic archives.
+- **Copy files into the watched folder.** The default gallery reads
+  `/gallery` (whatever host folder you mounted there). Copy files in,
+  and the watcher indexes them within seconds. Files that were already
+  in the folder before monbooru started are picked up by a sync: click
+  the sync icon at the top right. Subfolders are fine; monbooru keeps
+  your folder structure and shows it as a tree in the sidebar.
+- **Upload from the browser.** Open **Inbox** in the top menu and drop
+  files into the drop zone.
 
-Either way, new images land in the [inbox](../../guides/inbox/index.md), a
-holding area for things you have not reviewed yet. The same file added
-twice (even under two different paths) is recognized by its checksum
-and stored as one image.
+Accepted formats are JPEG, PNG, WebP, GIF, MP4, WebM, and CBZ/ZIP
+comic archives. The same file added twice (even under two different
+paths) is recognized by its checksum and stored once.
 
-## The UI at a glance
+Either way, new images land in the
+[inbox](../../guides/inbox/index.md), the pile of things you have not
+reviewed yet.
 
-- **Gallery grid.** The home page. Thumbnails of whatever the current
-  search matches; with an empty search you see everything. Hovering a video
-  or animated GIF plays a short preview. You can check thumbnails and a
-  batch bar appears with actions that apply to the selection.
-- **Search bar.** Top of the page. Type tags and filters, for example
-  `red_hair -sketch rating:general`. The full syntax is in
-  [Searching](../../guides/searching/index.md).
-- **Sidebar.** Left of the grid: the tags present on the current page
-  of results, top sources, your folder tree, and saved searches.
-  Everything in it is clickable and narrows the search.
-- **Detail page.** When you click a thumbnail, you see the image with its tags, metadata (size, folder, sources, collections),
-  and panels for AI generation data, similar entries and related
-  images. Arrow keys walk to the previous and next result relative to the current search.
-- **Footer.** Shows the active gallery, library counts, and the SFW
-  ceiling: click a rating level (`sfw`, `sensitive`, `questionable`,
-  `explicit`) to hide anything ranked above it (useful when someone is
-  looking over your shoulder). See
-  [Tags](../../guides/tags/index.md) for how ratings work.
+## Open one and tag it
 
-## Manga and comic archives
+Click a thumbnail to open its detail page: the image, its tags, and
+the file's metadata.
 
-A CBZ or ZIP archive of images is ingested as a single item, like an
-image; its thumbnail is the first page. The detail page for an archive
-adds **Open in reader** (a built-in page-by-page reader) and **See all
-pages** (a thumbnail grid of every page; click one to jump there in
-the reader). The reader remembers where you stopped: come back and the
-button reads **Open in reader (p. 12)** and takes you there.
-Bookmarking the reader's own URL in your browser works too: reopened
-without a page number, it lands on where you stopped. If the archive carries a
-`ComicInfo.xml`, its series, author and other fields show in a
-read-only metadata panel.
+![A detail page: the image, its tags, and the metadata panels](detail-page.png)
 
-A single page can be pulled out of the archive as an image of its own:
-**Extract** at the right of the reader bar (or the `e` key) saves the
-page you are looking at as a new file in your upload folder, ingests
-it like any other image, and takes you to its detail page to tag it.
-The new image is linked back to the archive as a derivative, so each
-one points at the other under Relations. Extracting the same page
-twice takes you back to the image you already made rather than
-creating a second copy.
+Type a few tags into the tag input, separated by spaces: what is in
+the picture (`red_hair`, `beach`), who made it (`artist:"john doe"`),
+anything you will want to search by later. Add a rating tag too
+(`rating:general` up to `rating:explicit`) to say how safe the image
+is to have on screen. [Tags](../../guides/tags/index.md) has the full
+syntax and how ratings work.
 
-## More galleries
+If you want to speed up the process, the
+[auto-tagger](../../guides/auto-tagger/index.md) runs an image-tagging
+model locally, on your own CPU or GPU, and tags your collection for
+you.
 
-Everything so far happens in the default gallery. A gallery is an
-independent library: its own folder, database, tags and saved
-searches. If you want a second one (say, wallpapers separate from art),
-mount another folder into the container and add it under
-**Settings -> Galleries**. Details in
-[Galleries](../../guides/galleries/index.md).
+## Search for it
 
-## Moving files
+The search bar combines tags and filters:
+`red_hair -sketch rating:general` finds images tagged `red_hair`, not
+tagged `sketch`, rated general. The full syntax is in
+[Searching](../../guides/searching/index.md).
 
-Files can be reorganized without leaving the app: **Move image** on
-the detail page (shortcut `m`) moves the file to another folder inside
-the gallery, creating subfolders as needed, and the Actions chooser
-and batch bar carry the same **Move** for a whole search or selection.
-The folder tree in the sidebar follows. **Rename image** next to it
-renames the file in place (the extension stays put), and the batch
-**Rename** gives a whole search or selection numbered names off one
-base: `trip01.png`, `trip02.png`, and so on.
+Everything in the sidebar (the tags on the current page of results,
+top sources, your folder tree, saved searches) is clickable and
+narrows the search. Checking thumbnails in the grid brings up a batch
+bar with actions that apply to the selection, and on a detail page the
+arrow keys walk the previous and next result of the current search.
+
+The footer carries the SFW ceiling: click a rating level to hide
+anything ranked above it (convenient when someone is looking over your
+shoulder).
+
+## Archive what you reviewed
+
+Once an image's tags and rating look right, flip it from inbox to
+**archived**: press `i` on its detail page, or select a batch of
+thumbnails and flip them from the batch bar.
 
 ## Cheatsheets in the app
 
 - Type `system:` in the search bar to open a dropdown listing every
   search filter, with drill-down hints for each one.
-- Press `?` on any page for the keyboard shortcuts overlay - the
-  `shortcuts` link in the footer opens the same thing. The UI is
+- Press `?` on any page for the keyboard shortcuts overlay. The UI is
   fully keyboard-drivable, from grid navigation to batch actions.
 - The `help` link in the footer opens this documentation.
 
 ![The keyboard shortcuts overlay](shortcuts.png)
+
+## Where next
+
+- [Searching](../../guides/searching/index.md),
+  [Tags](../../guides/tags/index.md) and the
+  [inbox](../../guides/inbox/index.md) cover the loop above in detail.
+- [Manga and comic archives](../../guides/manga/index.md) if your
+  collection includes CBZ/ZIP archives.
+- [Galleries](../../guides/galleries/index.md) to keep a second,
+  separate library (say, wallpapers apart from art).
+- The [addons](../../addons/_index.md) add the online half:
+  downloading from boorus and reverse image lookup.

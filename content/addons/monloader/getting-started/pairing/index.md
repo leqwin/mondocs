@@ -18,7 +18,7 @@ monloader side).
 1. In monloader, go to **Settings -> monbooru** and confirm the **api url**.
    The default `http://monbooru:8080` works when both containers share
    monbooru's compose network.
-2. Click **connect to monbooru**.
+2. In the **pairing** section, click **connect to monbooru**.
 3. In monbooru, approve the pending request in its monloader settings.
 
    ![The pairing request waiting for approval in monbooru](approve-request.png)
@@ -26,7 +26,7 @@ monloader side).
 4. Back in monloader, pick a **default gallery** (the dropdown appears once
    paired) and save.
 
-   ![monloader's Settings -> monbooru section once paired](settings-monbooru.png)
+   ![monloader's monbooru and pairing sections once paired](settings-monbooru.png)
 
 Approving provisions tokens in both directions: monbooru issues monloader a
 read and write token (stored as `[monbooru].api_token` in monloader's
@@ -40,26 +40,25 @@ touches gallery files.
 1. In the monsender extension's options, set monloader's URL and click
    **connect to monloader**. The extension-side steps are in
    [monsender setup](../../../monsender/getting-started/setup/index.md).
-2. In monloader, approve the request under **Settings -> monsender**.
+2. In monloader, approve the request under **Settings -> pairing**.
    Approving mints a scoped `monsender (paired)` token that the extension
    stores.
 
 ## Pausing the link
 
-The dot in monloader's footer says whether monbooru answered; clicking it
-while it is green holds the link: monloader stops calling monbooru and no new
-download is accepted until you click the dot again. That covers
-both ways in: the add bar refuses a pasted URL, and so does the browser
-extension, which sends over the API. The pairing itself is untouched, so
-resuming needs no re-pair. monbooru's footer carries the same switch for the
-other direction. Requests coming the other way - monbooru asking for tags or a
-refetch - still work, and downloads already queued are not affected.
+Clicking the connectivity dot in monloader's footer while it is green
+holds the link: monloader stops calling monbooru and refuses new
+downloads - a pasted URL and the browser extension alike - until you
+click it again. The pairing itself is untouched. Requests coming the
+other way (monbooru asking for tags or a refetch) still work, and
+downloads already queued are not affected; monbooru's footer carries
+the same switch for the other direction.
 
 ## Paired tokens
 
-Paired tokens appear in **Settings -> Authentication** next to any tokens
-you created yourself, but their scopes are read-only and they cannot be
-revoked directly: remove the pairing instead.
+Paired tokens appear in **Settings -> Authentication**, but their scopes
+are fixed and they cannot be revoked directly: remove the pairing
+instead.
 
 ## Re-pairing
 

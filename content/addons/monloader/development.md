@@ -116,28 +116,36 @@ unavailable, and downloads fail until it is installed.
 ## Adding a site profile
 
 Mappings are data, not code, so tracking gallery-dl's growing site list is a
-data change. There are two levels:
+data change. There are three levels:
 
-- **No profile needed.** Any gallery-dl site without a curated entry uses
-  the generic fallback ([sites](guides/sites/index.md)), and the
+- **No profile needed.** Any gallery-dl site without a profile uses the
+  generic fallback ([sites](guides/sites/index.md)), and the
   `[[tag_overrides]]` / `[[rating_overrides]]` tables in `monloader.toml`
-  ([mapping](guides/mapping.md)) can correct a generic site with no release.
-- **A curated profile.** To improve a site's mapping, add one entry to
-  `internal/mapping/profiles.json`, keyed by the gallery-dl category.
-  Profiles are embedded at build time, so a new one ships with a rebuild.
+  ([mapping](guides/mapping/index.md)) can correct a generic site with no release.
+- **Your own profile.** The settings profile tab
+  ([mapping](guides/mapping/index.md#editing-a-sites-profile)) writes
+  `/config/profiles/<category>.json`, applied immediately and layered over
+  the shipped set. You can also write the file by hand; a file that fails
+  to parse or validate is skipped with a warning in the log.
+- **A shipped profile.** The built-ins are the same files, embedded from
+  `internal/mapping/profiles/<category>.json`. Contributing one is a pull
+  request that adds your `/config/profiles/<category>.json`.
 
 A profile's fields:
 
 | field | purpose |
 |---|---|
 | `family` | `danbooru`, `e621`, `moebooru`, `gelbooru_v02`, `philomena`, or `generic` - picks the rating semantics and the per-category tag regime |
-| `kind` | `booru` (default) or `manga` - a manga gallery bundles its pages into one cbz |
+| `kind` | `booru` (default), `manga` - a manga gallery bundles its pages into one cbz - or `other` for sites that are neither |
 | `post_url_template` | the canonical post URL with `{id}` substituted (e.g. `https://danbooru.donmai.us/posts/{id}`) |
 | `md5_search_template` | the site's md5 search URL with `{md5}` substituted, a form gallery-dl's tag-search extractor matches (e.g. `https://danbooru.donmai.us/posts?tags=md5:{md5}`); set it to make the site eligible for hash lookup |
-| `auth` | `none`, `api_optional`, `api_required`, or `cookies` - drives the settings login indicator |
+| `auth` | `none`, `api_optional`, `api_required`, `username_password`, `cookies`, or `oauth` - drives the settings login indicator and the credential fields the dialog shows |
+| `hosts` | extra hosts that belong to the site (file CDNs, mirror instances); a direct file link on one of them counts as the site, and monsender treats them as the site's hosts too - a domain covers its subdomains ([mapping](guides/mapping/index.md#one-label-per-site)) |
 | `example` | a representative URL for the per-site test probe |
 | `category_overrides` | per-suffix tag-category remaps baked into the profile |
 | `rating_overrides` | per-value rating remaps baked into the profile |
 | `default_rating` | rating used only when the source gives none |
-| `needs_tags` | a generic-family site that needs gallery-dl's `tags: true` to emit per-category tags (one extra request per post |
+| `needs_tags` | a generic-family site that needs gallery-dl's `tags: true` to emit per-category tags (one extra request per post) |
 | `has_notes` | a generic-family site whose extractor emits note boxes with gallery-dl's `notes: true`; the note-carrying booru families get it by family |
+| `options` | gallery-dl options merged into the managed config for this site; shareable, so never secrets |
+| `tag_rules` | per-tag corrections keyed by normalized name: `""` suppresses the tag, a bare name renames it, `category:name` retargets it |

@@ -14,8 +14,8 @@ monbooru gallery over its API.
 The actual scraping is done by
 [gallery-dl](https://github.com/mikf/gallery-dl), so any site gallery-dl
 supports works. monloader adds the download queue, the metadata mapping, and
-the push into monbooru, with curated profiles that sharpen the result for
-50-plus known sites.
+the push into monbooru, with per-site profiles that correct tags, ratings
+and URLs for known sites.
 
 It also runs in reverse: for a file monbooru already holds, monloader can
 find tags by file hash and by image similarity (IQDB, SauceNAO) across the
@@ -33,7 +33,7 @@ public internet.
 - [Pairing](getting-started/pairing/index.md) - connect it to monbooru and to the monsender extension.
 - [Downloading](guides/downloading/index.md) - the queue, outcomes, retries, pools and manga.
 - [Sites and credentials](guides/sites/index.md) - site profiles, logins, cookies files.
-- [Metadata mapping](guides/mapping.md) - how tags, ratings, and sources land in monbooru.
+- [Metadata mapping](guides/mapping/index.md) - how tags, ratings, and sources land in monbooru.
 - [Reverse lookup](guides/lookup/index.md) - find tags for files you already have.
 - [Hydrus PTR](guides/ptr/index.md) - the optional offline tag database.
 - [Configuration](configuration.md) - the TOML file, environment variables, theming.

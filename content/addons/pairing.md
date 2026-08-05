@@ -10,7 +10,7 @@ other side, and the two exchange scoped tokens on their own.
 
 There are two links:
 
-**monloader and monbooru.** In monloader, **Settings -> monbooru ->
+**monloader and monbooru.** In monloader, **Settings -> pairing ->
 connect to monbooru** sends the request; you approve it in monbooru
 under **Settings -> Monloader**. monbooru issues monloader a token
 (read and write, so it can push downloads), and stores the token
@@ -19,8 +19,8 @@ features and its "connected to monloader" footer light.
 
 **monsender and monloader.** In the extension options, **connect to
 monloader** sends the request; you approve it in monloader under
-**Settings -> monsender**. The extension polls until the token is
-issued, then keeps it locally in the browser.
+**Settings -> pairing**, in the **monsender extension** block. The
+extension stores the issued token locally in the browser.
 
 ## Rules of thumb
 
@@ -28,12 +28,8 @@ issued, then keeps it locally in the browser.
   to what the peer actually needs; removing the pairing revokes them.
 - To re-pair, remove the existing pairing on both sides, then connect again.
 - A pending request does not survive a restart of the approving app,
-  and unapproved requests expire after a few minutes. monloader's
-  waiting state offers a cancel button and resets itself with a
-  "connect again" notice when monbooru no longer has the request;
-  just click connect again.
-- In monsender, changing the monloader URL clears the stored token, so
-  a moved server means pairing again.
+  and unapproved requests expire after a few minutes. If that
+  happens, connect again.
 - A rejected token shows up as an authentication error in the asking
   app. Removing and redoing the pairing fixes it.
 

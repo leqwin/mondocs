@@ -3,7 +3,7 @@ title: Maintenance
 weight: 110
 ---
 
-monbooru mostly looks after itself; the tools below cover the cases
+monbooru needs no routine maintenance; the tools below cover the cases
 where you moved things around behind its back, restored a backup, or
 want to reclaim space.
 

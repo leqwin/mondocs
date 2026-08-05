@@ -26,8 +26,6 @@ browser, once monloader is in place. You are looking at a page; you
 press the toolbar button; the page lands in monloader's queue and,
 once downloaded and mapped, appears in monbooru with its tags.
 
-In one line: monbooru holds, monloader loads, monsender sends.
-
 The apps connect by [pairing](pairing.md): each link is approved once
 in the receiving app's settings, and the apps exchange scoped API
 tokens on their own. The [quick start](quick-start.md) walks through

@@ -8,6 +8,10 @@ local image collection, and its two optional addons:
 
 Start reading [here](https://monbooru.github.io/mondocs/index.html).
 
+## Acknowledgements
+
+See [monbooru's acknowledgements](https://github.com/monbooru/monbooru#acknowledgements).
+
 ## License
 
 Documentation for AGPL-3.0-or-later projects; same license applies.

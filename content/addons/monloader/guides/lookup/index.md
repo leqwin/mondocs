@@ -6,7 +6,7 @@ weight: 40
 Reverse lookup answers "where does this file come from, and what are its
 tags?" from the file itself, without a URL. monloader walks a chain of
 sources you configure: exact hash searches on the boorus, image-similarity
-services, and optionally the local [Hydrus PTR index](../ptr/index.md) and folds
+services, and optionally the local [Hydrus PTR index](../ptr/index.md), and folds
 what it finds back into monbooru.
 
 ![The lookup chain in Settings](lookup-chain.png)
@@ -33,10 +33,9 @@ source that answers wins. A source is one of two kinds:
   misses.
 - **A similarity service**: danbooru's IQDB instance (`iqdb`) or SauceNAO
   (`saucenao`). These find visually matching posts, including re-encodes, by
-  uploading the image's thumbnail and
-  answering with candidate posts and 0-100 scores. The best candidate at or
-  above the **min similarity** floor (default 80%) is then fetched through
-  gallery-dl like any pasted URL.
+  uploading the image's thumbnail and answering with candidate posts and
+  0-100 scores. The best candidate at or above the **min similarity** floor
+  (default 80%) is then fetched through gallery-dl like any pasted URL.
 
 Out of the box the chain asks danbooru by exact md5 first, then IQDB, then
 SauceNAO, then gelbooru, rule34, e621, yandere, and konachan by exact md5.
@@ -46,13 +45,13 @@ noted and the chain continues.
 
 ## Editing the chain
 
-The Settings **lookup** section is the one place the chain is configured.
-The edit-order dialog has two columns: drag a source between **queried**
-(asked top to bottom) and **not queried**. Each chain row has a test button
+The Settings **lookup** section is the one place the chain is configured:
+which sources are queried, in what order, and the similarity floor
+(`lookup.min_similarity` in the TOML). Each chain row has a test button
 that runs one real query with a built-in probe image, so "no match" is a
 successful round trip; the SauceNAO test also reports your remaining daily
-quota. The similarity floor is set in the same section
-(`lookup.min_similarity` in the TOML).
+quota. The `iqdb` row's **edit site** button opens danbooru's dialog,
+since IQDB borrows danbooru's credentials.
 
 ## Credentials
 
@@ -83,9 +82,8 @@ labeled by its host.
 When no source holds the file at all, the item ends `hash_not_found`, and
 its message lists every source asked and why it missed or was skipped. A
 similarity service that found nothing usable lists its closest candidates
-with their scores 
-so a near-miss stays visible and you can judge whether the floor is too
-high.
+with their scores, so a near-miss stays visible and you can judge whether
+the floor is too high.
 
 ## Hash import specifics
 
@@ -100,7 +98,4 @@ add bar.
 With the [Hydrus PTR index](../ptr/index.md) enabled, monloader can also answer from
 its local sha256-keyed copy of the PTR (offline, and covering files that
 were deleted from the boorus or never posted there). monbooru drives it
-per image (the PTR panel's **Pull tags**) or in batch. The add bar
-shows at a glance which lookups are available: the booru chain (hover to see
-the queried sources in order) and the Public Tag Repository lookup with its
-sync state.
+per image (the PTR panel's **Pull tags**) or in batch.

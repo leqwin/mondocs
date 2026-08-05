@@ -17,10 +17,8 @@ page in the UI; the few that are not (paths, bind address) need a TOML
 edit and a restart. The full reference is in
 [Configuration](../configuration.md).
 
-A gallery is a named folder full of images. The default one points at
-`/gallery`. Drop a file under that path and the watcher picks it up
-within a few seconds; if the watcher is off, click the sync
-icon at the top right to walk the folder in one pass.
+A gallery is a named folder full of images; the default one points at
+`/gallery`.
 
 The compose file also contains an optional `monloader` service, the
 companion that handles downloading and reverse lookup. You can ignore

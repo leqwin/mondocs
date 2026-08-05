@@ -39,7 +39,7 @@ override any TOML key, is in [configuration](../configuration.md).
 
 | Mount | Purpose |
 |---|---|
-| `/config` | Persistent: `monloader.toml`, the managed `gallery-dl.json`, the gallery-dl download archive, and cookies files. |
+| `/config` | Persistent: `monloader.toml`, the managed `gallery-dl.json`, the gallery-dl download archive, cookies files, and your edited site profiles under `profiles/`. |
 | `/ptr` | Optional: the local Hydrus PTR tag index, only if you enable the PTR lookup. Expect tens of GB. See [Hydrus PTR](../guides/ptr/index.md). |
 
 monloader also uses an internal `/work` directory as scratch space for

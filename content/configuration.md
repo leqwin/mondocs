@@ -24,6 +24,7 @@ base_url      = "http://localhost:8080"   # self-referencing links and CORS
 name          = ""               # rebrand the UI; empty = monbooru
 logo          = ""               # path to an image; empty = the bundled logo
 custom_css    = ""               # path to a stylesheet served at /custom.css
+theme_color   = ""               # install splash + address bar; empty = the bundled dark
 monloader_url = ""               # browser-facing monloader URL for the footer
                                  # link; empty = monloader.api_url
 
@@ -41,7 +42,7 @@ max_file_size_mb      = 2048     # larger files: skipped at sync, refused at upl
 default_upload_folder = ""       # where web uploads land; empty = the gallery root
 
 [tagger]
-use_cuda                   = false   # GPU inference; needs the -cuda image
+execution_provider         = "cpu"   # cpu / cuda / directml / tensorrt / openvino / coreml / coremlv2
 parallel                   = 4       # images processed in parallel
 idle_release_after_minutes = 15      # unload idle models after this long; 0 = immediately
 
@@ -79,11 +80,12 @@ default_distance      = 4        # find-pairs Hamming distance (0..12);
 default_session_order = "smallest_distance_first"  # or largest_file_first / random
 incremental_on_ingest = true     # probe each new image for near-duplicates
 tag_pairs             = true     # also queue pairs that share rare tags
-tag_pair_threshold    = 0.85     # how strong a tag match has to be (0.5..1)
+tag_pair_threshold    = 0.85     # how strong a tag match has to be (0.7..1;
+                                 # the settings page shows it as a percent)
 ```
 
 Most of these are edited from the Settings page. The tagger blocks are
-covered in the [auto-tagger guide](guides/auto-tagger.md) and the
+covered in the [auto-tagger guide](guides/auto-tagger/index.md) and the
 sections below, the schedule in
 [Maintenance](guides/maintenance.md#nightly-schedule), and the
 relations keys in
@@ -109,7 +111,8 @@ Every variable overrides its TOML key. Pattern:
 | `MONBOORU_PATHS_MODEL_PATH` | `paths.model_path` | string |
 | `MONBOORU_GALLERY_WATCH_ENABLED` | `gallery.watch_enabled` | bool |
 | `MONBOORU_GALLERY_MAX_FILE_SIZE_MB` | `gallery.max_file_size_mb` | int |
-| `MONBOORU_TAGGER_USE_CUDA` | `tagger.use_cuda` | bool |
+| `MONBOORU_TAGGER_EXECUTION_PROVIDER` | `tagger.execution_provider` | `cpu` / `cuda` / `directml` / `tensorrt` / `openvino` / `coreml` / `coremlv2` |
+| `MONBOORU_TAGGER_USE_CUDA` | `tagger.execution_provider` | bool; older alias, `true` means `cuda` unless the variable above is set |
 | `MONBOORU_AUTH_ENABLE_PASSWORD` | `auth.enable_password` | bool |
 | `MONBOORU_AUTH_PASSWORD_HASH` | `auth.password_hash` | string |
 | `MONBOORU_AUTH_SESSION_LIFETIME_DAYS` | `auth.session_lifetime_days` | int |
@@ -126,28 +129,23 @@ TOML key:
 | `TZ` | Timezone name (e.g. `Etc/UTC`) for displayed timestamps and the daily schedule. Defaults to `UTC`. |
 | `MONBOORU_TAGGER_BACKEND` | Set to `inproc` to run tagger inference inside the main process instead of the default subprocess. See below. |
 | `MONBOORU_TAGGER_WORKER_LOG` | Log level for the `tagger-worker` subprocess only; same `warn` / `info` / `debug` values. Read once when the worker starts. |
+| `MONBOORU_TAGGER_DIRECTML_DEVICE_ID` | Which GPU DirectML runs on, as an adapter number. Defaults to `0`, the primary one; only useful on a machine with more than one GPU. |
 
 ONNX Runtime and CUDA also honor their standard variables:
 
 | Variable | Effect |
 |---|---|
 | `ORT_LIB_PATH` | Absolute path to `libonnxruntime.so` when the library is not on `LD_LIBRARY_PATH` / `/usr/lib`. Only consulted by a from-source `-tags tagger` build; the Docker image bundles ORT. |
-| `CUDA_CACHE_PATH` | Directory for the cuDNN JIT cache. With `tagger.use_cuda = true`, monbooru defaults this to `<data_path>/.nv-cache/` so the cache survives container recycles. |
+| `CUDA_CACHE_PATH` | Directory for the cuDNN JIT cache. With the `cuda` provider, monbooru defaults this to `<data_path>/.nv-cache/` so the cache survives container recycles. |
 
 ## The Settings page: General
 
-The everyday settings live in **Settings -> General** rather than the
-config file:
-
-- **Max file size** for ingest and upload (default 2048 MB, up to
-  5120). Large comic archives are what need the headroom.
-- **Default upload folder** - where browser uploads land in the
-  gallery.
-- **Watch folder** - the filesystem watcher on/off. Saving takes the
-  setting straight away, but the watcher itself only starts when
-  monbooru does, so restart after switching it on.
-- **Page size** - images per gallery page (default 40).
-- **Thumbnails** - square (cropped) or real aspect ratio.
+The everyday settings (max file size, default upload folder, watch
+folder, page size, thumbnail style) live in **Settings -> General**
+rather than the config file. Two non-obvious points: max file size
+goes up to 5120 MB - large comic archives are what need the
+headroom - and the watcher itself only starts when monbooru does, so
+restart after switching it on.
 
 ## Custom CSS
 
@@ -159,6 +157,47 @@ ignored. The file is served at `/custom.css` and linked after the
 bundled stylesheet, so a `:root` block in it wins the cascade and you
 can retheme without rebuilding.
 
+Every colour and the font come from that one block, so a whole theme
+is the block and nothing else. A light one, top to bottom:
+
+```css
+:root {
+  color-scheme: light;
+  --bg:         #f4f1ee;   /* the page */
+  --bg-surface: #e6e0da;   /* top bar, sidebar, panels, dialogs */
+  --bg-input:   #ffffff;   /* text fields */
+  --border:     #c8bfb6;   /* every rule and outline */
+  --fg:         #1c1a19;   /* text */
+  --fg-dim:     #6b625c;   /* secondary text */
+  --accent:     #9d2235;   /* focus rings, the selected image, delete buttons */
+  --link:       #8a1f30;
+  --success:    #2f7a4d;
+  --warning:    #8a6a10;
+  --error:      #b02a37;
+  --indigo:     #2f5d8a;   /* the monloader actions */
+  --tagger:     #1f6f63;   /* the auto-tagger */
+  --fav:        #c0392b;   /* favorites */
+  --remove:     #a03a44;   /* tag remove buttons */
+  --purple:     #7a3fa0;   /* Set default, on the galleries table */
+  --scrim:      #ffffff;   /* badges and pills over images, dialog backdrops */
+  --media-bg:   #ffffff;   /* behind an image that doesn't fill its frame */
+  --font-mono:  "IBM Plex Mono", monospace;
+}
+```
+
+`color-scheme` tells the browser which way
+to paint the parts monbooru leaves alone - scrollbars, dropdown lists,
+autofilled fields. Without it a light theme keeps dark scrollbars on a
+pale page.
+
+Two things a stylesheet cannot reach:
+
+- Tag category colours are library data, not CSS. Change them on the
+  Categories page.
+- The install splash and the mobile address bar come from the web
+  manifest. Set `theme_color` under `[server]` to your `--bg` so an
+  installed monbooru opens on the right colour.
+
 ## Custom name and logo
 
 Optional keys under `[server]`:
@@ -169,13 +208,11 @@ name = "monbooru"
 logo = "/config/logo.png"
 ```
 
-`name` replaces the wordmark, every page title, and the login heading.
-The CSS uppercases the wordmark regardless of case. Missing or empty
-falls back to `Monbooru`.
-
-`logo` is an absolute path to an image file (PNG works; anything the
-browser renders is fine). When set, it is used as both the favicon and
-the topbar logo. Missing or empty falls back to the bundled defaults.
+`name` replaces the wordmark, every page title, and the login heading
+(the CSS uppercases the wordmark regardless of case). `logo` is an
+absolute path to an image file (anything the browser renders), used
+as both the favicon and the topbar logo. Missing or empty values fall
+back to the bundled defaults.
 
 ## Log levels
 
@@ -187,26 +224,32 @@ the topbar logo. Missing or empty falls back to the bundled defaults.
   and explicit mutations (successful logins, settings changes).
 - `debug`: adds static asset, thumbnail, health and status-poll hits.
 
-## GPU (CUDA)
+## GPU and other execution providers
 
-The default image is CPU-only. For GPU inference, switch to the
-`-cuda` image tag, pass the GPU into the container the usual way (the
-compose file has a commented example), then enable
-**Settings -> Auto-Tagger -> Use GPU (CUDA)** (or set
-`MONBOORU_TAGGER_USE_CUDA=true`). GPU makes batch auto-tagging a lot
-faster. The current mode shows as a badge in Settings, and the save is
-rejected with an inline error when no CUDA runtime or GPU device is
-actually reachable.
+Inference runs on the CPU by default. To speed up batch auto-tagging
+with a GPU, pick an execution provider under
+**Settings -> Auto-Tagger -> Execution provider** (or set
+`tagger.execution_provider` in TOML): `cuda` for NVIDIA, `directml`
+for GPUs on Windows, `tensorrt` for NVIDIA with TensorRT, `openvino`
+for Intel GPUs, `coreml` or `coremlv2` on Apple hardware. The save is
+rejected with an inline error when the provider's ONNX Runtime
+library or device is not actually reachable. Configs from older
+versions that set `use_cuda = true` are read as `cuda` automatically.
+
+On Docker, the default image is CPU-only: for CUDA, switch to the
+`-cuda` image tag and pass the GPU into the container the usual way
+(the compose file has a commented example).
 
 Worker count is set from **Settings -> Auto-Tagger** or
 `tagger.parallel` in TOML (default 4). On GPU, raise it if CPU-side
-image preprocessing becomes the bottleneck.
+image preprocessing becomes the bottleneck. DirectML is the exception:
+it can only tag one image at a time, so it ignores the setting.
 
 The very first GPU inference on a new host pays a one-time JIT
 compilation cost of a few minutes. The compiled kernels are cached
-under `<data_path>/.nv-cache/` so later restarts load quickly; keep
-the data path on a persistent volume, or point `CUDA_CACHE_PATH`
-somewhere that is.
+under `<data_path>/` (`.nv-cache/` for CUDA, `.openvino-cache/` for
+OpenVINO) so later restarts load quickly; keep the data path on a
+persistent volume, or point `CUDA_CACHE_PATH` somewhere that is.
 
 ## Custom ONNX models
 
@@ -233,11 +276,15 @@ auto-detected profile. The repository's
 
 ## Label dispatch (dispatch.json)
 
-Drop a `dispatch.json` next to a tagger's `model.onnx` to remap a
-label to another category, rename it, or drop it entirely. monbooru
-ships defaults for the catalog taggers
+A `dispatch.json` next to a tagger's `model.onnx` remaps a label to
+another category, renames it, or drops it entirely. monbooru ships
+defaults for the catalog taggers
 (`internal/tagger/dispatch_default/<tagger>.json` in the repository);
-your file overlays them.
+your file overlays them. The usual way to edit it is the mappings tab
+of the tagger's Configure dialog (see the
+[auto-tagger guide](guides/auto-tagger/index.md#mappings)), which writes
+this file for you and drops any rule that just restates a shipped
+default; the format below is for editing by hand or sharing.
 
 ```json
 {
@@ -271,10 +318,10 @@ after every run.
 
 By default inference runs in a supervised subprocess
 (`tagger-worker`); idle release terminates it so the OS reclaims
-everything, including the CUDA libraries. Its memory shows in
-**Settings -> Stats**. To run inference inside the main process
-instead, set `MONBOORU_TAGGER_BACKEND=inproc` before launch - a
-fallback for subprocess problems, not the supported default.
+everything, including the GPU libraries. To run inference inside the
+main process instead, set `MONBOORU_TAGGER_BACKEND=inproc` before
+launch - a fallback for subprocess problems, not the supported
+default.
 
 ## Frame-merge gate (videos and archives)
 
@@ -285,5 +332,5 @@ label must hit on several frames to survive. The
 controls the required fraction of frames, clamped between 2 and 10
 frames. Set it to `0` to revert to "any single hit wins". Static
 images are unaffected. See the
-[auto-tagger guide](guides/auto-tagger.md#videos-and-archives) for the
+[auto-tagger guide](guides/auto-tagger/index.md#videos-and-archives) for the
 user-facing behavior.

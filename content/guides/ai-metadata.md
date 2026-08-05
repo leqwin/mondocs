@@ -46,8 +46,7 @@ examples:
 
 - `ai:comfyui model:sdxl` - ComfyUI images made with an SDXL
   checkpoint.
-- `prompt:catgirl seed:12345` - that one render you remember the seed
-  of.
+- `prompt:catgirl seed:12345` - a specific render, found by its seed.
 
 ## Re-extraction
 

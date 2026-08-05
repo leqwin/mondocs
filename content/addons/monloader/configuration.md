@@ -39,6 +39,9 @@ archive_path  = "/config/gallery-dl-archive.sqlite"
 cookies_dir   = "/config/cookies"                  # per-site cookies files
 sleep_request = 1.0                      # seconds between requests (politeness)
 raw_config    = ""                       # optional JSON merged into the managed config
+supportedsites_path = "/usr/local/share/monloader/supportedsites.md"
+                                         # gallery-dl's site data, bundled in the image;
+                                         # seeds names and login kinds for new sites
 
 [auth]
 enable_password       = false            # UI password, off by default
@@ -55,6 +58,7 @@ address     = "https://ptr.hydrus.network:45871"
 access_key  = ""                         # empty = the PTR's public read-only key
 fetch_sleep = 1.0
 min_free_gb = 70
+commit_sleep = 1.0                       # seconds between contribution uploads
 
 [lookup]                                 # the lookup chain's similarity stage
 min_similarity = 80                      # percent; candidates below are ignored
@@ -68,21 +72,29 @@ api_key = ""                             # from saucenao.com account settings
 
 [[sites]]                                # one block per configured site
 name         = "gelbooru"                # gallery-dl category
-username     = ""                        # danbooru / e621 families
+username     = ""                        # danbooru / e621 families, account-login sites
+password     = ""                        # account-login sites 
 api_key      = ""
 user_id      = ""                        # gelbooru family
 gallery      = ""                        # per-source target; empty = default_gallery
+label        = ""                        # source label on every push; empty = the site name
 cookies      = ""                        # cookies file name under cookies_dir
+options      = ""                        # extra gallery-dl options JSON for this site
 lookup_order = 4                         # lookup-chain position; 0 or absent = not queried
 ```
 
-Most of these are edited from the Settings page; note that the downloads
-section there also carries the "sleep / request" field, which writes
-`gallerydl.sleep_request`.
+User-edited site profiles live beside the config as
+`/config/profiles/<site>.json`, written by the Settings profile tab
+([metadata mapping](guides/mapping/index.md#editing-a-sites-profile)).
 
-Two more repeatable tables, `[[tag_overrides]]` and `[[rating_overrides]]`,
-reroute a site's tag categories and rating values; they are covered in
-[metadata mapping](guides/mapping.md). The `[ptr]` block is covered in
+Most of these are edited from the Settings page; its "sleep / request"
+field writes `gallerydl.sleep_request`.
+
+Three more repeatable tables: `[[tag_overrides]]` and `[[rating_overrides]]`
+reroute a site's tag categories and rating values, and `[[host_labels]]`
+(edited in the Settings sites section) names the source for hosts no site
+claims; they are covered in
+[metadata mapping](guides/mapping/index.md). The `[ptr]` block is covered in
 [Hydrus PTR](guides/ptr/index.md), the lookup chain and `[[sites]]` in
 [reverse lookup](guides/lookup/index.md) and [sites](guides/sites/index.md).
 
@@ -107,6 +119,7 @@ Environment variables override the TOML on the pattern
 | `MONLOADER_GALLERYDL_CONFIG_PATH` | `gallerydl.config_path` | string |
 | `MONLOADER_GALLERYDL_ARCHIVE_PATH` | `gallerydl.archive_path` | string |
 | `MONLOADER_GALLERYDL_COOKIES_DIR` | `gallerydl.cookies_dir` | string |
+| `MONLOADER_GALLERYDL_SUPPORTEDSITES_PATH` | `gallerydl.supportedsites_path` | string |
 | `MONLOADER_GALLERYDL_SLEEP_REQUEST` | `gallerydl.sleep_request` | float |
 | `MONLOADER_AUTH_ENABLE_PASSWORD` | `auth.enable_password` | bool |
 | `MONLOADER_AUTH_PASSWORD_HASH` | `auth.password_hash` | string |
@@ -117,6 +130,7 @@ Environment variables override the TOML on the pattern
 | `MONLOADER_PTR_ACCESS_KEY` | `ptr.access_key` | string |
 | `MONLOADER_PTR_FETCH_SLEEP` | `ptr.fetch_sleep` | float |
 | `MONLOADER_PTR_MIN_FREE_GB` | `ptr.min_free_gb` | int |
+| `MONLOADER_PTR_COMMIT_SLEEP` | `ptr.commit_sleep` | float |
 | `MONLOADER_LOOKUP_MIN_SIMILARITY` | `lookup.min_similarity` | int |
 | `MONLOADER_LOOKUP_SAUCENAO_API_KEY` | `lookup.saucenao.api_key` | string |
 
@@ -144,10 +158,9 @@ together.
 ## Logo and title
 
 `name` and `logo` in `[server]` rebrand the UI without a rebuild. `name`
-replaces the wordmark, every page title, and the login heading; the CSS
-uppercases the wordmark, so `myloader` renders as `MYLOADER`. Empty falls
-back to `monloader`. `logo` is a path to an image served at `/custom.logo`
-and used for both the favicon and the logo; empty falls back to the bundled
+replaces the wordmark, page titles, and the login heading (the CSS
+uppercases the wordmark). `logo` is a path to an image used for both the
+favicon and the logo. Empty values fall back to the bundled name and
 assets.
 
 ## Log levels
@@ -160,11 +173,3 @@ assets.
   (gallery-dl version, extractor count, work dir).
 - `debug` - adds the 2-second queue poll, the connectivity-light check, and
   `/health` hits.
-
-## The stats block
-
-The Settings page ends with a read-only stats section: process memory
-(RSS, Go heap, goroutines), the bundled gallery-dl version and extractor
-count, and the queue's worker/queued/running/finished counters. Nothing
-there is configurable; it exists so you can check the process's health
-without leaving the UI.

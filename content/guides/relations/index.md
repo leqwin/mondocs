@@ -15,11 +15,7 @@ four declared relation types, plus a rejection list:
 | Derivative | A directed source -> derivative link. A derivative has exactly one source; a source can carry many derivatives. |
 | Not related | A rejected pair, recorded so the pair finder never suggests it again. |
 
-Declare a relation by hand with **Add a relation** on any detail page
-(if the pair already carries one, **Overwrite existing relation**
-replaces it). The dialog spells the types out in plain words: "Same
-image (Duplicate)", "Variant (Alternate)", "Newer revision (Version)",
-"Based on (Derivative)". Related images render in their own panel on the detail
+Declare a relation by hand with **Add a relation** on any detail
 page. When monloader pushes a booru post that declares a parent post,
 the pair is linked automatically as a derivative once both are in the
 gallery.
@@ -33,124 +29,119 @@ mechanism outside the relation graph.
 
 monbooru computes a perceptual hash (a fingerprint of what the image
 looks like, one that survives resizing and re-encoding) for every
-image and uses it to suggest near-duplicate pairs. The queue of
-suggestions fills from several triggers:
-
-- **Automatically on ingest**: each
-  new image is probed against the index as it arrives, so fresh candidates appear on their
-  own.
-- **Relations -> Find new pairs** scans images added since the last
-  scan.
-- **Settings -> Schedule -> Find relation pairs** runs a nightly pass
-  (off by default).
-- **Settings -> Maintenance -> Rebuild pair queue** wipes the queue,
-  including skipped pairs, and rescans from scratch.
-- **Relations -> Reset skipped** returns previously skipped pairs to
-  the queue without a rebuild.
-
-How different two images may be and still get paired is set by
-**Settings -> Relations -> pHash matching distance** (default 4,
-range 0..12); lower means fewer, more confident pairs. If older images
-predate perceptual hashing, run **Settings -> Maintenance -> Compute
+image and uses it to suggest near-duplicate pairs. New images are
+probed as they arrive, **Relations -> Find new pairs** scans
+everything added since the last scan, and a nightly pass can be
+scheduled under **Settings -> Schedule**. If older images predate
+perceptual hashing, run **Settings -> Maintenance -> Compute
 perceptual hashes** once to backfill.
 
-Pairs whose two images share a collection are left out of the queue by
-default - the collection already relates them. A per-collection
-**find relations** switch on the Collections page opts a collection
-back in.
+**Settings -> Relations -> pHash matching distance** (default 4,
+range 0..12) sets how different two images may be and still get
+paired; lower means fewer, more confident pairs. Saving a stricter
+setting also drops the queued pairs it rules out, so a session never
+asks about candidates the current settings would not have found.
+Loosening a setting takes effect the next time **Find new pairs**
+runs.
 
-Archives (cbz/zip) are never paired this way. A book's perceptual hash
-is only its cover page, so a cover match says nothing about the pages
-inside. They are matched by shared tags instead (below); byte-identical
+Pairs whose two images share a collection are left out of the queue -
+the collection already relates them. A per-collection **find
+relations** switch on the Collections page opts a collection back in.
+
+Archives (cbz/zip) are never paired by image: a book's perceptual
+hash is only its cover page, so a cover match says nothing about the
+pages inside. They are matched by shared tags instead; byte-identical
 copies still show up under **Duplicate files**.
 
 ### Pairs that share rare tags
 
 A perceptual hash cannot see that a recolour, a redraw or a fan piece
 belongs with its original: the pixels are too different. Tags can.
-**Settings -> Relations -> Also queue pairs that share rare tags** is
-on by default, so every find-pairs run does a second pass that scores
-images against each other by the tags they have in common, weighting
-rare tags heavily and ignoring the ones everything carries. It is the
-same score as the [`similar:` search](../searching/index.md#images-with-similar-tags).
+With **Settings -> Relations -> Also queue pairs that share rare
+tags** on (the default), every find-pairs run does a second pass that
+scores images against each other by the tags they have in common,
+weighting rare tags heavily. It costs a full pass over the library on
+every run and only pays off once your images are tagged, so turn it
+off if your library is large and mostly untagged.
 
-It costs a full pass over the library on every run and only pays off
-once your images are tagged, so turn it off if your library is large
-and mostly untagged. **Tag similarity match strength** sets the bar for
-queueing a pair; the default of 0.85 is deliberately strict, since
-every queued pair is a decision you will have to make. Try
-`similar:<id>~0.85` in the search bar first to see what that means in
-your library.
+**Rare tag similarity match strength** sets the bar for queueing a
+pair: the default 85% keeps the queue to the pairs worth a decision;
+lower it toward 70% to catch more variants at the cost of a longer
+queue. Try `similar:<id>~0.85` in the search bar to get a feel for a
+level in your library (a related but different score: [`similar:`](../searching/index.md#images-with-similar-tags)
+counts every shared tag equally instead of weighting rare ones).
 
-Tag matches are queued behind image matches, so a session still works
-through the confident pixel matches first.
+A pair also needs ten meaningful tags in common before it is queued.
+Two images can share a character and an artist and nothing else,
+which scores high on very little evidence; the floor keeps those out.
+Tags carried by a large share of the library do not count, and
+neither do tags that arrived through an implication.
 
 ## The swipe session
 
 ![One pair in a relations session](session.png)
 
-**Relations -> Start a session** walks the queue pair by pair. Each
-pair renders side by side. Decide the pair (duplicate, alternate,
-version, derivative, not related) or skip it; deciding also drops the
-pair's co-grouped rows so the session moves straight on. A metadata
-table compares the pair underneath; `W` swaps the two sides and `C`
-opens a compare slider.
+**Relations -> Start a session** walks the queue pair by pair: decide
+each pair or skip it. Skipped pairs sit out until **Relations ->
+Reset skipped** brings them back. Confident pixel matches come first,
+tag matches after.
 
-Between the two images sits what put the pair in front of you:
+The line between the two images says what put the pair in front of
+you: the pHash distance, the rare tag similarity (with the shared
+tags that produced the score listed in the comparison table), both
+when the two detectors agree, or **reopened by you**. On a pHash
+match the larger file goes on the left; on a tag match the older
+image does.
 
-- **distance N** - a perceptual-hash match, and how close. The larger
-  file goes on the left, since bigger usually means more canonical.
-- **tags similarity ~N%** - a tag match, and how strong. The older
-  image goes on the left instead, because these usually turn out to be
-  a variant or a based-on, and those read "right is based on left". The
-  comparison table also lists the shared tags that produced the score,
-  strongest first.
-- **phash N - tags similarity ~N%** - both detectors agree, which is
-  the strongest hint the queue can give you.
-- **reopened by you** - a pair you sent back with **review again**.
+When the two images both descend from the same image - common after a
+booru import brings in a parent and its children - that nearest
+shared ancestor is shown between them. The pair is still asked about
+because two images from one tree can be duplicates of each other, but
+the rejection is recorded as **Simple siblings** instead of
+**Not related**: the same decision, labeled for this case. Pairs the tree
+already answers - one image descends from the other, or both sit in
+one revision chain - never reach a session at all. If a tree turns
+out to be wrong, unlink the edge and the pair becomes a candidate
+again.
 
-Marking a pair a duplicate then asks whether to delete the duplicate's
-file. **Keep file** leaves both on disk, **Delete now** removes the
-duplicate's. When the duplicate carries tags the original lacks, the
-prompt also offers **Copy unique tags onto the original first** - the
-copy runs either way, so you can consolidate the tags and still keep
-both files.
+![A sibling pair: the shared parent in the bridge, and the Simple siblings decision](session-siblings.png)
 
-Two pickers above the pair shape the session without leaving it.
-**Found by** narrows the queue to one detector - **Near duplicate
-(pHash)** or **Tags similarity** - or back to **Both**, so you can
-clear the pixel matches in one sitting and leave the tag matches for
-later. **Order** switches between smallest distance first (most
-confident first), largest file first (handy when merging into the
-best-quality original), and random; the default order for new
-sessions is set under **Settings -> Relations**.
+Marking a pair a duplicate asks whether to delete the duplicate's
+file. When the duplicate carries tags the original lacks, the prompt
+also offers **Copy unique tags onto the original first** - the copy
+runs either way, so you can consolidate the tags and still keep both
+files.
+
+Two pickers above the pair shape the session. **Found by** narrows
+the queue to one detector, so you can clear the pixel matches in one
+sitting and leave the tag matches for later; it resets to **Both**
+each new sitting. **Order** switches between smallest distance first,
+largest file first (handy when merging into the best-quality
+original), and random; the default for new sessions is set under
+**Settings -> Relations**.
 
 ## Browsing what you declared
 
 **Relations -> Browse relations** lists every declared relation, one
-tab per type: Same image, Variants, Revision history, Based on, and
-Not related (so a rejected pair can be found and undone). Rows sort by
-most recent, size, or when the original was added. From here you can
-unlink an edge, dissolve a group, and merge same-image groups by
-selecting several and merging them into one.
+tab per type - including **Not related**, so a rejected pair can be
+found and undone. From here you can unlink an edge, dissolve a group,
+and merge same-image groups into one.
+
+**Review again** undoes one decision and sends that pair straight
+back to a session. On a longer chain or tree there is no single pair
+to reopen, so each image in the card carries its own: it reopens the
+link between that image and the one it hangs under, and the rest of
+the tree stays as it is.
 
 ## Cleaning up duplicates
 
-Two cleanup tools live under **Relations -> Duplicates**, one per
-kind of duplicate:
+Two cleanup tools live under **Relations -> Duplicates**, and they
+are deliberately separate:
 
-- **Duplicate images** walks the declared duplicate groups. Each row
-  shows the original and one other member; **Delete** removes the
-  non-original from the gallery, and **Copy tags** (a separate step)
-  previews and layers the duplicate's tags onto the original first.
-  **Delete all duplicate images** removes every non-original member of
-  every group in one go.
-- **Duplicate files** walks byte-identical files stored at more
-  than one path on disk - one image in the library, several copies in
-  the folder. **Delete** removes the extra path and its file, keeping
-  the canonical one; **Delete all duplicate files** runs it across
-  every alias.
-
-They are deliberately separate: a SHA-256 duplicate is the same file
-twice on disk (already a single image in monbooru), while a marked
-duplicate is two distinct images you declared to be the same picture.
+- **Duplicate images** walks the declared duplicate groups - two
+  distinct images you marked as the same picture. Deleting removes
+  the non-original member; **Copy tags** previews and layers the
+  duplicate's tags onto the original first.
+- **Duplicate files** walks byte-identical files stored at more than
+  one path on disk - already a single image in monbooru. Deleting
+  removes the extra path and its file, keeping the canonical one.
