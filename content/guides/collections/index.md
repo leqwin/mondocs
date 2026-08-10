@@ -48,3 +48,25 @@ in no collection, `collection:any` images in at least one. The
 one in its own order; when the search pins a single `collection:`,
 results follow exactly that collection's order. Details in
 [Searching](../searching/index.md#folder-source-collection).
+
+## Turning a collection into an archive
+
+**[generate cbz]** on the Collections page packs
+a collection into a new cbz archive, useful when a set was
+downloaded as loose images but reads as one book.
+
+Pages follow the collection's own order, falling back to filename
+order for members that are not numbered. The archive gets a
+`ComicInfo.xml` with the collection's name and page count, lands in
+your upload folder, and shows up in the gallery as
+an ordinary cbz you can read.
+
+A collection holding a video, an animated image or another archive
+cannot be packed, since those have no page a reader could show.
+
+Nothing is taken away here either: the collection and its images stay as they are, and their tags are not copied onto the archive. Packing the same collection twice
+does not make a second copy: monbooru notices the result is identical
+and keeps the one it already has.
+
+Unpacking an archive back into a collection is in
+[Manga and comic archives](../manga/index.md#turning-an-archive-into-a-collection).

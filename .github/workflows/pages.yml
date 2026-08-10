@@ -21,7 +21,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Full history: hugo's enableGitInfo dates each page from the last
+      # commit that touched it. A shallow clone would date every page from
+      # the newest sync commit instead.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - run: ./build.sh
       - uses: actions/upload-pages-artifact@v3
         with:

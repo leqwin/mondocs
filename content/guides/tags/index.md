@@ -24,9 +24,10 @@ wholesale.
 
 ## Reading an image's tags
 
-The sidebar lists the image's tags grouped by category, most
-identifying first (rating, artist, copyright, character, then the
-rest), alphabetically within a group so a tag is where you expect it.
+The sidebar lists the image's tags grouped by category, metadata
+first (rating, year, meta, medium), then what is in the image
+(artist, character, and the rest, with general last), alphabetically
+within a group so a tag is where you expect it.
 Each row is `[x] tagname  marker  count`: the `[x]` takes the tag off
 the image, the name searches for it, and the count is how many images
 in the library carry it. Hovering a name spells it out in full (long
@@ -43,13 +44,13 @@ The marker between the name and the count is one of three:
 - `87%`: an auto-tagger is the only thing vouching for this tag, and
   that is how sure it was. The percentage goes away once you or a
   booru also apply the tag.
-- `·3`: three sources agree on this tag. Hover to see which, and when
+- `x3`: three sources agree on this tag. Hover to see which, and when
   each one applied it.
 
 Tags that arrived through an implication (you added `hatsune_miku`,
 so `vocaloid` came with it) sit indented and dimmed under the tag
 that brought them, and leave when it does, so they carry no `[x]` of
-their own.
+their own. Hovering one names the tag that brought it.
 
 Under the input, **Just added** echoes the tags this session put on
 the image.

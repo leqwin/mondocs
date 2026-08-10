@@ -29,8 +29,8 @@ optional [addons](addons/_index.md).
 - Tag-based gallery with a folder tree, favorites, saved searches,
   collections and rating tags with an SFW ceiling. See
   [Searching](guides/searching/index.md) and [Tags](guides/tags/index.md).
-- A file watcher picks up new, moved and deleted files within seconds,
-  and new images land in an [inbox](guides/inbox/index.md) for review.
+- A file watcher picks up new, moved and deleted files within
+  seconds, and new images land in an [inbox](guides/inbox/index.md) for review.
 - Reads Stable Diffusion metadata (A1111/Forge and ComfyUI): prompts,
   models, seeds, full workflows. See [AI metadata](guides/ai-metadata.md).
 - Local [auto-tagging](guides/auto-tagger/index.md) with ONNX models (WD14

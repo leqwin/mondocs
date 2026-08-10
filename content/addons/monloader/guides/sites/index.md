@@ -71,8 +71,11 @@ configured credentials. A site still missing a required credential reads
 "needs cookies" or "needs api key"; a credential the site refuses reads
 "auth rejected"; a Cloudflare or captcha wall reads "blocked".
 
-**Remove** drops everything user-set on the site - credentials, gallery,
-source label, cookies path, and options.
+**Remove** undoes the whole dialog in one click - credentials, gallery,
+source label, cookies path, options, and the site's own profile with its
+tag corrections - and the row leaves the table. It leaves the site's
+position in the [lookup chain](../lookup/index.md) alone: that is
+configured in its own section, not here.
 
 Saving a site rewrites the managed `gallery-dl.json` from the config; that
 file is never hand-edited.

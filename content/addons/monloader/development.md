@@ -76,7 +76,7 @@ monsender extension can branch on them:
 | `canceled` | the job was canceled while the item was in flight |
 
 The job's `summary` aggregates its items:
-`{ created, duplicate, enriched, replaced, skipped, failed, canceled, total }`.
+`{ created, duplicate, enriched, matched, replaced, skipped, failed, canceled, total }`.
 The outcomes themselves are described in
 [downloading](guides/downloading/index.md#per-item-outcomes).
 

@@ -31,7 +31,7 @@ Then open `http://localhost:8081`.
 1. In monloader, go to **Settings -> monbooru**. The default api url
    `http://monbooru:8080` is right for the shared compose network.
 2. In the **pairing** section below, click **connect to monbooru**.
-3. In monbooru, open **Settings -> Monloader** and approve the request.
+3. In monbooru, open **Settings -> Plugins** and approve the request.
 4. Back in monloader, pick a **default gallery** and save.
 
 The apps then exchange tokens themselves. From now on monloader

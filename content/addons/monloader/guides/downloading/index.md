@@ -28,13 +28,14 @@ anything.
 
 ## Per-item outcomes
 
-Every item ends with one of seven outcomes:
+Every item ends with one of eight outcomes:
 
 | Outcome | Meaning |
 |---|---|
 | `created` | new image accepted by monbooru |
 | `duplicate` | monbooru already had this exact file; any new tags merge in |
 | `enriched` | a metadata-only refetch or a hash lookup merged tags into an image monbooru already holds |
+| `matched` | a batch PTR lookup answered with an image's tags; monloader wrote nothing, monbooru applies them |
 | `replaced` | the post's file was pushed over an existing image's, keeping its tags and history - this is monbooru's **[upgrade]** action doing its work through monloader (see [Lookup and sources](../../../../guides/lookup/index.md)) |
 | `skipped_archive` | this post was already fetched before; not downloaded again |
 | `skipped_unsupported` | monbooru cannot ingest this file type; not pushed |

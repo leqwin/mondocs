@@ -43,5 +43,12 @@ else
     HUGO=$BIN_DIR/hugo
 fi
 
+# enableGitInfo dates each page from its last commit, so it needs a git
+# checkout; a source tarball has none, and hugo makes that a hard error.
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo "no git checkout, building without per-page dates"
+    export HUGO_ENABLEGITINFO=false
+fi
+
 "$HUGO" --gc --cleanDestinationDir
 echo "built into public/"

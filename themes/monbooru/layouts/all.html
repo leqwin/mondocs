@@ -1,6 +1,12 @@
 {{ define "main" }}
 <article class="doc">
-  <h1>{{ .Title }}</h1>
+  <div class="doc-head">
+    <h1>{{ .Title }}</h1>
+    {{ if and .File .IsPage (not .Lastmod.IsZero) }}
+    {{ $lastmod := .Lastmod.Format "2006-01-02" }}
+    <p class="lastmod">last updated <time datetime="{{ $lastmod }}">{{ $lastmod }}</time></p>
+    {{ end }}
+  </div>
   {{ .Content }}
 </article>
 {{ if .File }}

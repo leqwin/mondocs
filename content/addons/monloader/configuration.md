@@ -60,8 +60,9 @@ fetch_sleep = 1.0
 min_free_gb = 70
 commit_sleep = 1.0                       # seconds between contribution uploads
 
-[lookup]                                 # the lookup chain's similarity stage
-min_similarity = 80                      # percent; candidates below are ignored
+[lookup]                                 # the chain's similarity stage, and what the nightly run may spend
+min_similarity         = 80              # percent; candidates below are ignored
+scheduled_daily_budget = 25              # images a day monbooru's scheduled lookups may cover; 0 refuses them
 
 [lookup.iqdb]
 order = 2                                # chain position; uses the danbooru site credentials

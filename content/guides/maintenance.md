@@ -59,6 +59,10 @@ duplicates tool under **Relations -> Duplicates**; see
 - Remove orphaned thumbnails
 - Run enabled auto-taggers (off by default)
 - Find relation pairs (off by default)
+- Look up unsourced images, in the Public Tag Repository and on online
+  boorus (both off by default, and both hidden until monloader is
+  paired) - see
+  [scheduled lookup](lookup/index.md#looking-up-a-library-overnight)
 
 The scheduler runs through every gallery in turn. If a job is already
 running at fire time, the run is skipped silently.

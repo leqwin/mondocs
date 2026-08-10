@@ -62,11 +62,10 @@ instead.
 
 ## Re-pairing
 
-A peer that is already paired is refused until its pairing is removed.
-Removing a pairing (on either side) drops the local token and asks the peer
-to drop its own; if the peer was unreachable at that moment, a notice
-reminds you to remove it there too. monloader keeps the configured monbooru
-api url, so a re-pair reuses it.
+Removing a pairing (on either side) drops the local
+token and asks the peer to drop its own; if the peer was unreachable at that
+moment, a notice reminds you to remove it there too. monloader keeps the
+configured monbooru api url, so a re-pair reuses it.
 
 ## Manual setup
 

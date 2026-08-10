@@ -26,6 +26,9 @@ browser, once monloader is in place. You are looking at a page; you
 press the toolbar button; the page lands in monloader's queue and,
 once downloaded and mapped, appears in monbooru with its tags.
 
+**[Plugins](plugins.md)** are the open version of the same idea:
+anything you or someone else writes, showing up as a few buttons in monbooru.
+
 The apps connect by [pairing](pairing.md): each link is approved once
 in the receiving app's settings, and the apps exchange scoped API
 tokens on their own. The [quick start](quick-start.md) walks through

@@ -9,6 +9,9 @@ Settings page and written back to the file; the few that are not
 (paths, bind address, galleries' on-disk locations) need a TOML edit
 and a restart.
 
+Anything saved from the Settings page rewrites the whole file from
+monbooru's own view of it, so comments and hand-arranged ordering will not survive.
+
 ## monbooru.toml
 
 ```toml
@@ -24,6 +27,7 @@ base_url      = "http://localhost:8080"   # self-referencing links and CORS
 name          = ""               # rebrand the UI; empty = monbooru
 logo          = ""               # path to an image; empty = the bundled logo
 custom_css    = ""               # path to a stylesheet served at /custom.css
+theme         = ""               # name of a folder (or .css) in <configdir>/themes/
 theme_color   = ""               # install splash + address bar; empty = the bundled dark
 monloader_url = ""               # browser-facing monloader URL for the footer
                                  # link; empty = monloader.api_url
@@ -147,18 +151,26 @@ goes up to 5120 MB - large comic archives are what need the
 headroom - and the watcher itself only starts when monbooru does, so
 restart after switching it on.
 
-## Custom CSS
+## Themes
 
-Drop a `custom.css` next to `monbooru.toml` and set
-`custom_css = "/config/custom.css"` under `[server]` to load an extra
-stylesheet. The path must sit under the config directory, `/config`,
-or `/data`; anything outside that allowlist is logged at startup and
-ignored. The file is served at `/custom.css` and linked after the
-bundled stylesheet, so a `:root` block in it wins the cascade and you
-can retheme without rebuilding.
+A theme is a folder you drop in `themes/`, next to `monbooru.toml`,
+holding a `theme.css`:
 
-Every colour and the font come from that one block, so a whole theme
-is the block and nothing else. A light one, top to bottom:
+```
+/config/themes/light/theme.css
+/config/themes/light/logo.png   # optional
+```
+
+Pick it under **Settings -> Plugins**. It applies at once, with no
+restart, and the choice is remembered. A theme that ships a `logo.png`
+swaps the topbar logo along with the colours; the tab icon keeps the
+shipped one unless you set `server.logo`, which outranks any theme on
+both. 
+
+See [monbooru-plugins registry](https://github.com/monbooru/monbooru-plugins).
+
+Every colour and the font come from one `:root` block, so a whole theme
+is that block and nothing else. A light one, top to bottom:
 
 ```css
 :root {
@@ -174,14 +186,47 @@ is the block and nothing else. A light one, top to bottom:
   --success:    #2f7a4d;
   --warning:    #8a6a10;
   --error:      #b02a37;
-  --indigo:     #2f5d8a;   /* the monloader actions */
+  --monloader:  #2f5d8a;   /* the monloader actions */
   --tagger:     #1f6f63;   /* the auto-tagger */
+  --plugin:     #7a3fa0;   /* plugin buttons and the blocks holding them */
   --fav:        #c0392b;   /* favorites */
   --remove:     #a03a44;   /* tag remove buttons */
-  --purple:     #7a3fa0;   /* Set default, on the galleries table */
+  --alternate:  #4f45a0;   /* the Variant button in a relations review */
   --scrim:      #ffffff;   /* badges and pills over images, dialog backdrops */
   --media-bg:   #ffffff;   /* behind an image that doesn't fill its frame */
   --font-mono:  "IBM Plex Mono", monospace;
+}
+```
+
+The top menu takes an optional colour per entry:
+
+```css
+:root {
+  --nav-images:      #b12937;
+  --nav-inbox:       #8f4c1b;
+  --nav-categories:  #755a0d;
+  --nav-tags:        #226c3a;
+  --nav-collections: #136a64;
+  --nav-relations:   #1e6393;
+  --nav-settings:    #813cb5;
+}
+```
+
+Tag category colours are library data (you set them on the Categories page); but a theme can recolor the default ones monbooru ships.  
+Each variable is named after the colour it replaces:
+
+```css
+:root {
+  --cat-3d90e3: #2b5ea4;   /* general   */
+  --cat-00aa00: #226c3a;   /* character */
+  --cat-cc0000: #b12937;   /* artist    */
+  --cat-aa00aa: #883aac;   /* copyright */
+  --cat-ffaa00: #7a580e;   /* meta      */
+  --cat-996666: #82505b;   /* rating    */
+  --cat-7d4fbf: #6945c4;   /* medium    */
+  --cat-b85c9e: #983a7d;   /* person    */
+  --cat-4a8fa8: #2b657b;   /* year      */
+  --cat-ed5d1f: #944923;   /* species   */
 }
 ```
 
@@ -190,13 +235,14 @@ to paint the parts monbooru leaves alone - scrollbars, dropdown lists,
 autofilled fields. Without it a light theme keeps dark scrollbars on a
 pale page.
 
-Two things a stylesheet cannot reach:
+## Custom CSS
 
-- Tag category colours are library data, not CSS. Change them on the
-  Categories page.
-- The install splash and the mobile address bar come from the web
-  manifest. Set `theme_color` under `[server]` to your `--bg` so an
-  installed monbooru opens on the right colour.
+`custom_css = "/config/custom.css"` under `[server]` loads one more
+stylesheet, after any theme, so you can your own editing to a theme you downloaded. The path must sit under the config
+directory, `/config`, or `/data`.
+
+One thing a stylesheet cannot reach: the install splash and the mobile address bar come from the web manifest. Set `theme_color` under
+`[server]` to your `--bg` so an installed monbooru opens on the right colour.
 
 ## Custom name and logo
 

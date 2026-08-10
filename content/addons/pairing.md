@@ -12,7 +12,7 @@ There are two links:
 
 **monloader and monbooru.** In monloader, **Settings -> pairing ->
 connect to monbooru** sends the request; you approve it in monbooru
-under **Settings -> Monloader**. monbooru issues monloader a token
+under **Settings -> Plugins**. monbooru issues monloader a token
 (read and write, so it can push downloads), and stores the token
 monloader offers in return, which is what powers monbooru's lookup
 features and its "connected to monloader" footer light.
@@ -32,6 +32,9 @@ extension stores the issued token locally in the browser.
   happens, connect again.
 - A rejected token shows up as an authentication error in the asking
   app. Removing and redoing the pairing fixes it.
+
+Third-party [plugins](plugins.md) pair the same way and land in the
+same list.
 
 Per-app detail: [monloader pairing](monloader/getting-started/pairing/index.md),
 [monsender setup](monsender/getting-started/setup/index.md), and for

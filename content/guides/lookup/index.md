@@ -80,16 +80,54 @@ candidate carries a `~NN%` match score.
   message links the other image so you can settle the pair in the
   relations review.
 - **Find tags**, in the gallery's **Actions** chooser and the batch
-  bar (the `L` key while a selection is active), runs a lookup across
-  the whole scope: either refresh tags from every source declared on
-  each image, or run the hash and similarity lookup per image. With
-  the PTR synced the hash mode can be narrowed to **PTR only** or
-  **online boorus only**, so a large batch can stay on the free local
-  index or spare the online services.
+  bar (the `L` key while a selection is active), runs one of three
+  things across the whole scope: refresh tags from every source
+  declared on each image, look the scope up by file hash, or set whether the nightly run considers
+  these images. A hash lookup defaults to skipping the images that
+  already carry a source. Batched lookups
+  queue behind anything you are waiting on, so a big one does not delay a download.
 - **Find aliases and implications**, on the Tags page's selection
   bar, pulls the selected tags' known relations from the PTR into
   your catalog. With no filter active, "all matching" covers the
   whole catalog. See [Tags](../tags/index.md#the-tags-page).
+
+## Looking up a library overnight
+
+Doing a whole library one image at a time may be a bit long, and doing batch lookup the whole gallery may exceed your query allowance , so the
+[nightly run](../maintenance.md#nightly-schedule) can do it for you little by little.
+Tick either lookup under **Settings -> Schedule** and it walks the
+images that have no source, oldest-overdue first.
+
+The two backends behave differently, which is why they are separate
+ticks:
+
+- The **Public Tag Repository** pass is a local read with no quota, so
+  it checks the whole due set every run. It only re-checks an image
+  once monloader's index has actually moved on.
+- The **online boorus** pass spends a real request per image, so
+  monloader caps how many images per day it will accept. Set that cap
+  under monloader's settings -> lookup; when it runs out the pass stops
+  until tomorrow and picks up where it left off. With several galleries
+  the run starts at a different one each night, so none is starved.
+
+An image that misses is not asked about again the next night: the wait
+doubles each time, from a week up to sixteen. After six online misses
+the image reads **nothing found** and stops spending the budget. Its detail page
+still offers **look again** if you disagree, and the same is available
+in bulk from the **Find tags** dialog over a `lookup:exhausted` search.
+
+Each unsourced image's detail page carries one switch per pass you have
+ticked, each saying whether the run considers this image on that
+backend, when it was last looked up there and what came of it. They are
+separate so you can for instance leave the
+free repository pass running on an image while taking it off the online
+boorus (your own work, a commission, anything a booru will never have).
+Turning a switch back on also puts that backend's ladder back to the
+start. The `lookup:` search filter finds
+each of those states across the library (`lookup:due`, `lookup:missed`,
+`lookup:exhausted`, `lookup:off`, `lookup:never`), and
+**Settings -> Maintenance -> Look up unsourced images** runs the
+enabled passes right now instead of waiting for the next scheduled one.
 
 A booru post that names a parent post links the two as a derivative
 relation once both are in the gallery - see

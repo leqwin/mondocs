@@ -171,13 +171,7 @@ a:hover { text-decoration: underline; }
 }
 
 .doc h1, .doc h2, .doc h3, .doc h4 { font-family: var(--font-mono); line-height: 1.4; scroll-margin-top: 24px; }
-.doc h1 {
-  font-size: 22px;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
+.doc h1 { font-size: 22px; letter-spacing: 1px; }
 .doc h2 {
   font-size: 17px;
   margin: 36px 0 12px;
@@ -186,6 +180,26 @@ a:hover { text-decoration: underline; }
 }
 .doc h3 { font-size: 15px; margin: 28px 0 10px; }
 .doc h4 { font-size: 14px; margin: 22px 0 8px; color: var(--fg-dim); }
+
+/* Title row, with the last-updated date pushed to the right of the title */
+.doc-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.doc-head .lastmod {
+  margin-left: auto;
+  margin-bottom: 0;
+  font-family: var(--font-mono);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
 
 /* Section anchors */
 .doc .anchor {

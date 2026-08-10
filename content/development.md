@@ -62,7 +62,7 @@ not duplicate them.
 ## Pairing with monloader
 
 To connect monloader you do not copy tokens by hand: monloader asks,
-you approve under **Settings -> Monloader**, and both sides exchange
+you approve under **Settings -> Plugins**, and both sides exchange
 scoped tokens automatically. The pairing model is described in
 [Pairing](addons/pairing.md).
 

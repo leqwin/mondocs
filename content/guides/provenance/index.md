@@ -51,7 +51,7 @@ annotation in either list highlights its box on the image, and
 
 When more than one source agreed on the same tag - say you added it
 and a later booru refetch confirmed it, or a PTR lookup pulled it in
-too - the tag shows a small **·N** beside it in the sidebar. Hover it
+too - the tag shows a small **xN** beside it in the sidebar. Hover it
 to see every source and the date it last confirmed the tag.
 
 Switching the sidebar to **[sources]** lays the same information out

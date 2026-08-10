@@ -99,3 +99,16 @@ With the [Hydrus PTR index](../ptr/index.md) enabled, monloader can also answer 
 its local sha256-keyed copy of the PTR (offline, and covering files that
 were deleted from the boorus or never posted there). monbooru drives it
 per image (the PTR panel's **Pull tags**) or in batch.
+
+## Scheduled lookups from monbooru
+
+monbooru's nightly maintenance run can send lookups for the images that
+have no source, and monloader is what bounds them: the daily budget in
+**settings -> lookup**. Those lookups queue behind everything else, so a whole library sweeping
+overnight never delays a URL you paste while it runs.
+
+The budget is how many images a night they may cover, 25 out of the
+box. Once the budget is spent monloader refuses the rest and monbooru stops for the day,
+picking up where it left off tomorrow. 
+Lookups you trigger by hand from monbooru - the detail-page button, the
+batch action, are never counted against it and never refused.

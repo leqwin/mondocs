@@ -2,6 +2,7 @@ baseURL = '/'
 languageCode = 'en'
 title = 'monbooru docs'
 theme = 'monbooru'
+enableGitInfo = true
 
 relativeURLs = true
 uglyURLs = true
