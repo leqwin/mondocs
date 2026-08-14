@@ -79,9 +79,8 @@ The queue survives a restart: jobs that were still waiting resume, and a
 job that was mid-download when the app stopped comes back marked
 **interrupted**.
 
-Finished rows also go on their own after a week. Change the window in
-**Settings -> downloads -> clear history after (days)**, or set it to 0
-to keep rows until the queue's max limit of 100 pushes them out.
+Finished rows get automatically removed after the delay windows set in  **Settings -> downloads**. You can set different windows for successful downloads and failed ones. Set
+either to 0 to turn it off; in any case, rows still get removed once the queue's max limit of 100 pushes them out.
 
 ## Pause and resume
 

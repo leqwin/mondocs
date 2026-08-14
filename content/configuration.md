@@ -284,7 +284,7 @@ versions that set `use_cuda = true` are read as `cuda` automatically.
 
 On Docker, the default image is CPU-only: for CUDA, switch to the
 `-cuda` image tag and pass the GPU into the container the usual way
-(the compose file has a commented example).
+(the compose file has a commented example). That tag is amd64 only.
 
 Worker count is set from **Settings -> Auto-Tagger** or
 `tagger.parallel` in TOML (default 4). On GPU, raise it if CPU-side

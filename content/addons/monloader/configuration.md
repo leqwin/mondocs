@@ -29,7 +29,11 @@ paused          = false                  # set by the footer light; holds the li
 concurrency            = 1               # worker goroutines; applies on restart
 max_items_per_job      = 200             # per-job cap on a bulk search
 default_folder         = "downloads"     # monbooru subfolder for pushed files
-history_retention_days = 7               # drop finished downloads from the queue
+success_retention_days = 3               # drop downloads that finished with
+                                         # nothing left to do after this many
+                                         # days; 0 turns it off. Must not be
+                                         # longer than the window below
+history_retention_days = 14              # drop everything else from the queue
                                          # after this many days; 0 keeps them
 
 [gallerydl]
@@ -115,6 +119,7 @@ Environment variables override the TOML on the pattern
 | `MONLOADER_DOWNLOADER_CONCURRENCY` | `downloader.concurrency` | int |
 | `MONLOADER_DOWNLOADER_MAX_ITEMS_PER_JOB` | `downloader.max_items_per_job` | int |
 | `MONLOADER_DOWNLOADER_DEFAULT_FOLDER` | `downloader.default_folder` | string |
+| `MONLOADER_DOWNLOADER_SUCCESS_RETENTION_DAYS` | `downloader.success_retention_days` | int |
 | `MONLOADER_DOWNLOADER_HISTORY_RETENTION_DAYS` | `downloader.history_retention_days` | int |
 | `MONLOADER_GALLERYDL_BINARY_PATH` | `gallerydl.binary_path` | string |
 | `MONLOADER_GALLERYDL_CONFIG_PATH` | `gallerydl.config_path` | string |
@@ -141,6 +146,14 @@ key:
 | Variable | Effect |
 |---|---|
 | `TZ` | Timezone name (default `UTC`) for displayed timestamps. Any IANA name works. |
+
+## Updating gallery-dl
+
+The **advanced** section of the Settings page installs any gallery-dl release
+without waiting for a monloader update: the install lands in
+`/config/gallery-dl/` on the config volume, so it survives container
+and image updates, and one click reverts to the version bundled in the
+image.
 
 ## Raw gallery-dl passthrough
 
