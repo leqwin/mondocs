@@ -29,9 +29,13 @@ second case the panel also offers **Pull tags**, covered in
 - **add** lists the tags the PTR does not have yet. A row notes "PTR
   spelling: ..." when the PTR's spelling differs from yours because
   of how monbooru and hydrus handle tags (the PTR stores
-  `creator:1nupool` where monbooru says `artist:1nupool`). Tags the
-  PTR already has, and tags it cannot take, fold away under one-line
-  summaries.
+  `creator:1nupool` where monbooru says `artist:1nupool`). A row
+  noting "not a PTR tag" is a spelling the PTR holds nowhere, not just
+  missing from this file: sending it creates a brand new PTR tag, so
+  check first whether the PTR already knows the thing under another
+  name (the tag's detail page can tell you, see below). Tags
+  the PTR already has, and tags it cannot take, fold away under
+  one-line summaries.
 - **petition removal** lists tags the PTR carries for this file that
   your image genuinely lacks. Alternate spellings of tags you already
   have, and tags your image shows through an implication, are filtered
@@ -57,6 +61,21 @@ A tag's detail page carries the same panel, but for relations instead
 of tags, in both directions of both kinds: aliases pointing at the
 tag or the tag resolving to another, implications out of it or into
 it.
+
+The PTR may know your tag under another name. You might have named a character `samus_aran_(metroid)` where the PTR files her as `character:samus aran`. So the panel also asks about every alias pointing at the tag, and when one of those is what the PTR knows, the panel says so ("known to the Public Tag Repository as samus_aran, an alias here")
+and works through that name: **Pull aliases and implications** brings that cluster in, and the petition list shows the PTR's relations for it. When neither the tag nor any alias is known, the panel says "the Public Tag Repository does not know this tag" first. Contributing new relations would start a new PTR cluster beside one that may already exist. In between those two there is a third case: the repository has your spelling but nothing
+filed under it, which reads "the Public Tag Repository holds no
+relations for this spelling".
+
+**[look up as...]**, top right of the panel, is for the case where the PTR files your tag under a name you have not declared as an alias yet.
+It opens on a list of the spellings the PTR actually holds near your tag's name, each with what its cluster carries, so you can pick one. Pick a row, or type a spelling and press Enter,
+and the dialog shows what the PTR
+holds under it and what a pull would do: `+` rows are aliases and
+implications that would land on your tag, dim rows are already
+declared, `!` rows are left alone (a name that is already a tag of its
+own here, or an alias of another tag). The looked-up spelling itself
+becomes an alias of your tag when the name is free, so from then on
+the panel finds the PTR on its own.
 
 Its **contribute...** dialog works the same way:
 

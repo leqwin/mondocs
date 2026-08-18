@@ -47,6 +47,20 @@ booru lookup pulled in stay on their source's panel. Hovering an
 annotation in either list highlights its box on the image, and
 **[hide annotations]** clears the overlay.
 
+### Formatting
+
+Annotations, the personal note and commentary can include bracket markup. 
+
+```
+[b]bold[/b]  [i]italic[/i]  [u]underline[/u]  [s]struck[/s]
+[code]code[/code]  [tn]translator note[/tn]
+
+[tag]blue_eyes[/tag]              search this gallery for a tag
+[tag=blue_eyes]Blue eyes[/tag]    the same, with your own wording
+[url=https://example.com]link[/url]
+[image:123]                       another image in this gallery
+```
+
 ## Which sources gave a tag
 
 When more than one source agreed on the same tag - say you added it

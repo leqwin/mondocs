@@ -73,7 +73,8 @@ you asked for as a unit and always come down whole.
   recognizes the file and merges any new tags into the existing image,
   so this is how you refresh one post from its source.
 - **cancel** stops a job whether or not it has started; items still in
-  flight end as canceled, finished ones keep their outcome.
+  flight end as canceled, finished ones keep their outcome. **cancel
+  pending** does the same to every job that has not started yet.
 
 The queue survives a restart: jobs that were still waiting resume, and a
 job that was mid-download when the app stopped comes back marked

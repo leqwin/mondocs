@@ -125,10 +125,10 @@ from the settings page's **ptr** section:
 ```toml
 [ptr]
 enabled     = false
-data_path   = "/ptr"                          # dedicated index volume
-address     = "https://ptr.hydrus.network:45871"
+data_path   = "/ptr"                          # dedicated index volume; applies on restart
+address     = "https://ptr.hydrus.network:45871"   # applies on restart
 access_key  = ""                              # empty = the public read-only key; a personal account key goes here
-fetch_sleep = 1.0                             # seconds between update downloads
-min_free_gb = 70                              # refuse the initial sync below this free space
+fetch_sleep = 1.0                             # seconds between update downloads; applies on restart
+min_free_gb = 70                              # refuse the initial sync below this free space; applies on restart
 commit_sleep = 1.0                            # seconds between contribution uploads
 ```

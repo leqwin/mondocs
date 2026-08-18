@@ -84,7 +84,10 @@ controls themselves:
   page) are real tags for search purposes.
 - **Find aliases and implications** (shown when a paired monloader
   has the Hydrus PTR enabled) pulls each selected tag's known
-  relations from the Public Tag Repository into your catalog. Nothing
+  relations from the Public Tag Repository into your catalog. A tag
+  the PTR does not know under your spelling is asked about under its
+  aliases too, and the PTR's own preferred spelling lands as an alias
+  of yours. Nothing
   is removed or sent. A re-run also reconciles earlier pulls:
   relations the PTR no longer lists move under a stale heading on the
   tag detail page, for you to drop if you agree. See

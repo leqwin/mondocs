@@ -66,7 +66,9 @@ See [Tags](../tags/index.md) for how ratings and the SFW ceiling work.
 | `ratio:>=1.5` | Aspect ratio (width divided by height). |
 | `duration:>=30` | Video duration in seconds. Non-video rows never match. |
 | `pages:>=100` | Page count of a comic archive. Non-archive rows count as 0 pages. |
-| `hash:abcd...` | Exact match on the image's SHA-256. |
+| `hash:abcd...` | Exact match on a digest of the file. A 64-character value is read as the SHA-256, a 32-character one as the MD5. |
+| `md5:abcd...` | Exact match on the image's MD5. |
+| `md5:` / `-md5:` | Has an MD5 computed / does not have one yet. |
 | `id:123` | Exact match on the image id. |
 | `missing:true` | Images whose file is missing from disk. |
 
@@ -81,6 +83,13 @@ See [Tags](../tags/index.md) for how ratings and the SFW ceiling work.
 | `source:none` | Images with no source at all. Bare `source:` means the same; `source:any` matches images carrying at least one. |
 | `collection:"collection name"` | Images filed under that collection. Bare `collection:` matches images in no collection; `collection:any` matches images in at least one. |
 | `via:upload` | How the image was added: `ingest` (watcher or sync), `upload` (web form), `monloader` (pushed by a paired monloader), or any origin an API client supplied. |
+| `lookup:due` | Where the [nightly lookup](../lookup/index.md#looking-up-a-library-overnight) stands with an unsourced image: `due` (queued for the next run), `missed` (waiting out a backoff), `exhausted` (nothing found, given up), `off` (switched off on the image) or `never` (not tried yet). |
+| `upgrade:any` | Images where a source serves a file you do not have, which is what the **upgrade** action offers. `upgrade:none` is the rest. |
+| `upgrade:bigger` | The candidates whose post is larger than your copy. Only sources that publish their file's size or dimensions can answer, so this is a subset of `upgrade:any`. |
+| `upgrade:unknown` | Images with a source that never told monbooru which file it holds, so nothing can be compared. Refreshing the source settles them. |
+| `upgrade:sample` | Images whose file looks like a saved preview by its name or size (a booru `sample_` file, a pixiv `master1200`, a 850px or 1200px edge) and that carry a post to check against. A guess, not a verdict. |
+| `upgrade:kept` | Images where you chose **keep local** on a source. |
+| `upgrade:danbooru` | Any other value reads as a source name: candidates from that source alone. |
 
 ## AI and generation metadata
 

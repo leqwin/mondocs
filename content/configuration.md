@@ -43,7 +43,9 @@ model_path = "/models"           # ONNX tagger models, one subfolder each
 [gallery]
 watch_enabled         = true     # the filesystem watcher
 max_file_size_mb      = 2048     # larger files: skipped at sync, refused at upload
-default_upload_folder = ""       # where web uploads land; empty = the gallery root
+default_upload_folder = ""       # where received files land; empty = the gallery root
+default_upload_name   = ""       # what to rename them to; empty = keep the sender's name
+rename_on_ingest      = false    # send files found on disk to the same place
 
 [tagger]
 execution_provider         = "cpu"   # cpu / cuda / directml / tensorrt / openvino / coreml / coremlv2
@@ -144,12 +146,14 @@ ONNX Runtime and CUDA also honor their standard variables:
 
 ## The Settings page: General
 
-The everyday settings (max file size, default upload folder, watch
-folder, page size, thumbnail style) live in **Settings -> General**
-rather than the config file. Two non-obvious points: max file size
-goes up to 5120 MB - large comic archives are what need the
-headroom - and the watcher itself only starts when monbooru does, so
-restart after switching it on.
+The everyday settings (max file size, where received files land and
+what they are named, watch folder, page size, thumbnail style) live in
+**Settings -> General** rather than the config file. Two non-obvious
+points: max file size goes up to 5120 MB - large comic archives are
+what need the headroom - and the watcher itself only starts when
+monbooru does, so restart after switching it on, or after turning on
+filing for files found on disk. The naming fields are covered in
+[Moving and renaming files](guides/moving-files.md#naming-files-as-they-arrive).
 
 ## Themes
 
@@ -282,9 +286,12 @@ rejected with an inline error when the provider's ONNX Runtime
 library or device is not actually reachable. Configs from older
 versions that set `use_cuda = true` are read as `cuda` automatically.
 
-On Docker, the default image is CPU-only: for CUDA, switch to the
-`-cuda` image tag and pass the GPU into the container the usual way
-(the compose file has a commented example). That tag is amd64 only.
+On Docker, the default image is CPU-only: for CUDA switch to the
+`-cuda` image tag, for an Intel GPU to the `-openvino` tag, then pass
+the GPU into the container the usual way (the compose file has a
+commented example for each). An Intel GPU also needs `/dev/dri` passed
+in and the container added to your host's render group, otherwise the
+save is rejected. Both tags are amd64 only.
 
 Worker count is set from **Settings -> Auto-Tagger** or
 `tagger.parallel` in TOML (default 4). On GPU, raise it if CPU-side

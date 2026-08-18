@@ -13,9 +13,9 @@ monbooru itself never goes online. Every lookup runs through a paired
 [monloader](../../addons/monloader/_index.md) instance, so set one up
 first: the [addons quick start](../../addons/quick-start.md) walks
 through starting monloader next to monbooru and pairing the two. The
-actions below stay hidden until the link is up. How the lookup chain
-itself works (which services are asked, in which order, similarity
-floors) is documented on the
+actions below stay hidden until the two are paired. How the
+lookup chain itself works (which services are asked, in which order,
+similarity floors) is documented on the
 [monloader lookup page](../../addons/monloader/guides/lookup/index.md).
 
 ## Pausing the link
@@ -116,10 +116,9 @@ the image reads **nothing found** and stops spending the budget. Its detail page
 still offers **look again** if you disagree, and the same is available
 in bulk from the **Find tags** dialog over a `lookup:exhausted` search.
 
-Each unsourced image's detail page carries one switch per pass you have
-ticked, each saying whether the run considers this image on that
-backend, when it was last looked up there and what came of it. They are
-separate so you can for instance leave the
+Each unsourced image's detail page carries one switch per backend,
+saying whether the run considers this image there, when it was last
+looked up and what came of it. They are separate so you can for instance leave the
 free repository pass running on an image while taking it off the online
 boorus (your own work, a commission, anything a booru will never have).
 Turning a switch back on also puts that backend's ladder back to the

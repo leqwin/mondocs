@@ -20,9 +20,9 @@ many rows they touched; Vacuum and Free memory report space reclaimed.
 - **Rebuild thumbnails**: regenerate every thumbnail, including manga
   covers and page thumbnails. Useful after an import or a backup
   restore. Also re-probes video dimensions.
-- **Compute perceptual hashes**: backfill the perceptual hash for
-  every image that lacks one. The relations pair finder needs it; see
-  [Relations](relations/index.md).
+- **Compute hashes**: backfill the two hashes an image can be missing.
+  First the perceptual hash, which the relations pair finder needs (see
+  [Relations](relations/index.md)); then the MD5.
 - **Rebuild pair queue**: wipe the relation candidate queue (skipped
   pairs included) and rescan from scratch.
 - **Tag counts** (Recalculate): recompute every tag's usage count. The
