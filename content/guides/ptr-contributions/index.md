@@ -27,9 +27,11 @@ second case the panel also offers **Pull tags**, covered in
 **contribute...** opens a dialog with two lists:
 
 - **add** lists the tags the PTR does not have yet. A row notes "PTR
-  spelling: ..." when the PTR's spelling differs from yours because
-  of how monbooru and hydrus handle tags (the PTR stores
-  `creator:1nupool` where monbooru says `artist:1nupool`). A row
+  spelling: ..." when the tag goes up under a different name than the
+  one you see: because of how monbooru and hydrus handle tags (the PTR
+  stores `creator:1nupool` where monbooru says `artist:1nupool`), or
+  because you have aliased the tag to a spelling the PTR uses and it
+  goes up under that rather than under your own. A row
   noting "not a PTR tag" is a spelling the PTR holds nowhere, not just
   missing from this file: sending it creates a brand new PTR tag, so
   check first whether the PTR already knows the thing under another
@@ -37,9 +39,12 @@ second case the panel also offers **Pull tags**, covered in
   the PTR already has, and tags it cannot take, fold away under
   one-line summaries.
 - **petition removal** lists tags the PTR carries for this file that
-  your image genuinely lacks. Alternate spellings of tags you already
-  have, and tags your image shows through an implication, are filtered
-  out - what remains really is extra. An absent tag can still just
+  your image genuinely lacks. Tags your image shows through an
+  implication are filtered out, and so are spellings of tags you
+  already carry: the PTR's own alternates, plus any spelling you
+  declared as an alias, so a tag you and the PTR simply spell
+  differently reads as neither extra here nor new above. What remains
+  really is extra. An absent tag can still just
   mean you have not tagged it locally: tick one only if it is
   factually wrong for the image, and give a reason. One reason covers
   everything you tick, and petitions have no `[all]` on purpose: each
@@ -73,9 +78,19 @@ and the dialog shows what the PTR
 holds under it and what a pull would do: `+` rows are aliases and
 implications that would land on your tag, dim rows are already
 declared, `!` rows are left alone (a name that is already a tag of its
-own here, or an alias of another tag). The looked-up spelling itself
-becomes an alias of your tag when the name is free, so from then on
-the panel finds the PTR on its own.
+own here, or an alias of another tag). The two actions at the bottom
+are the same pull in either direction, each named by the spelling it
+keeps: **pull and keep <your tag>** files the repository's spellings
+under yours as aliases, while **pull and keep <the PTR spelling>**
+moves your images onto the repository's name and leaves yours behind
+as an alias. Take the second if you would rather carry the name the
+PTR uses. After
+either one the whole cluster is aliased together, so from then on the
+panel finds the PTR on its own. When the looked-up name is already a
+tag of its own here, keeping your own spelling leaves it alone and the
+panel then says the repository files your tag under that other one -
+the two are the same subject under two names, and the second action is
+what merges them.
 
 Its **contribute...** dialog works the same way:
 

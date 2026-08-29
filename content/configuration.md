@@ -3,8 +3,12 @@ title: Advanced configuration
 weight: 80
 ---
 
-monbooru keeps its configuration in `/config/monbooru.toml`, created
-with defaults on first start. Most settings are editable from the
+monbooru keeps its configuration in one TOML file, created with
+defaults on first start: `/config/monbooru.toml` in a container, or the
+settings folder named in [Install](getting-started/install.md) on a
+desktop install. The sample below shows the container defaults; a
+desktop install seeds its OS-native folders instead, and the two other
+values marked below. Most settings are editable from the
 Settings page and written back to the file; the few that are not
 (paths, bind address, galleries' on-disk locations) need a TOML edit
 and a restart.
@@ -22,8 +26,8 @@ name         = "default"
 gallery_path = "/gallery"        # folder holding the source images
 
 [server]
-bind_address  = "127.0.0.1:8080"          # the shipped compose sets 0.0.0.0:8080 via env
-base_url      = "http://localhost:8080"   # self-referencing links and CORS
+bind_address  = "127.0.0.1:8455"          # the containers set 0.0.0.0:8455 via env instead
+base_url      = "http://localhost:8455"   # self-referencing links and CORS
 name          = ""               # rebrand the UI; empty = monbooru
 logo          = ""               # path to an image; empty = the bundled logo
 custom_css    = ""               # path to a stylesheet served at /custom.css
@@ -75,10 +79,13 @@ level = "warn"                   # warn / info / debug
 
 [schedule]                       # the nightly run; see Maintenance
 time                = "01:00"    # HH:MM, 24h, in the TZ timezone
+mode                = "at_time"  # at_time / at_time_catchup / on_start / off
 sync_gallery        = true
 remove_orphans      = true
 run_auto_taggers    = false
 find_relation_pairs = false
+lookup_ptr          = false      # reads monloader's local PTR index
+lookup_booru        = false      # spends monloader's daily budget on the online walk
 
 [relations]
 default_distance      = 4        # find-pairs Hamming distance (0..12);
@@ -157,13 +164,19 @@ filing for files found on disk. The naming fields are covered in
 
 ## Themes
 
-A theme is a folder you drop in `themes/`, next to `monbooru.toml`,
-holding a `theme.css`:
+Two themes ship with the binary and are always in the picker: `dark`,
+which is monbooru's default look, and `light`.
+
+A theme of your own is a folder you drop in `themes/`, next to
+`monbooru.toml`, holding a `theme.css`:
 
 ```
-/config/themes/light/theme.css
-/config/themes/light/logo.png   # optional
+/config/themes/mytheme/theme.css
+/config/themes/mytheme/logo.png   # optional
 ```
+
+Give it a name of its own rather than reusing `light`, or you overwrite
+the seeded example.
 
 Pick it under **Settings -> Plugins**. It applies at once, with no
 restart, and the choice is remembered. A theme that ships a `logo.png`
@@ -239,6 +252,18 @@ to paint the parts monbooru leaves alone - scrollbars, dropdown lists,
 autofilled fields. Without it a light theme keeps dark scrollbars on a
 pale page.
 
+One more variable sits outside `:root`, on the classes rather than in
+the block, but an override sheet reaches it the same way:
+
+```css
+:root {
+  --btn-accent: #b5793c;   /* the accent buttons (warning, success) */
+}
+```
+
+Leave it out and those two buttons keep the shipped colours while
+everything around them changes.
+
 ## Custom CSS
 
 `custom_css = "/config/custom.css"` under `[server]` loads one more
@@ -268,8 +293,8 @@ back to the bundled defaults.
 
 `log.level` (or `MONBOORU_LOG_LEVEL`):
 
-- `warn` (default): warnings, errors, and failed or rate-limited
-  logins.
+- `warn` (the default): warnings,
+  errors, and failed or rate-limited logins.
 - `info`: adds one line per non-noisy HTTP request, startup banners,
   and explicit mutations (successful logins, settings changes).
 - `debug`: adds static asset, thumbnail, health and status-poll hits.

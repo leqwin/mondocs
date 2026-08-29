@@ -18,7 +18,7 @@ connection:
   token (a 401): before the first pairing, after the token was
   revoked, or after a monloader reinstall. Fix: **connect to
   monloader** in options, then approve the request in monloader
-  under **Settings -> monsender**.
+  under **Settings -> pairing**.
 
 ## "host access not granted"
 

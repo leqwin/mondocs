@@ -40,6 +40,13 @@ a file in its folder.
 Only what is true the moment a file is added can be used, so tags,
 collections and ratings are not available.
 
+A token can also be empty for one particular file, like `{w}` on a
+video nothing could measure. It renders as nothing and the separators
+around it close up. If that
+leaves no name at all, the rename or move is refused rather than
+applied, so a selection can never end up named after its ids or
+emptied into the gallery root.
+
 ## Naming files as they arrive
 
 **Settings -> General** has one row, **Where received files go**, that
@@ -48,8 +55,11 @@ they are called. Both halves take the same tokens, so
 `inbox/{year}-{month}` and `{name}-{hash:8}` between them file and name
 every incoming file; the line under the row shows the whole path a file
 arriving now would end up at. Leave the folder blank for the gallery
-root and the name blank to keep whatever the sender called it. A file
-pushed by [monloader](../addons/monloader/_index.md) can also use
+root and the name blank to keep whatever the sender called it. An
+arriving file has to be called something, so here a template that
+renders nothing falls back to the image's id rather than being
+refused. A file pushed by
+[monloader](../addons/monloader/_index.md) can also use
 `{source}` and `{post_id}`, which no other file has:
 `{source}-{post_id}` names a pull `danbooru-4821993.jpg`.
 

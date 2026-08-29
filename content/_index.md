@@ -51,7 +51,8 @@ optional [addons](addons/_index.md).
 
 ## Where to go
 
-- [Install](getting-started/install.md) gets it running with Docker; [First steps](getting-started/first-steps/index.md) to walk
+- [Install](getting-started/install.md) gets it running as a desktop
+  download or with Docker; [First steps](getting-started/first-steps/index.md) to walk
   the UI.
 - The [guides](guides/_index.md) cover the main features.
 - [Configuration](configuration.md) has the environment variables,

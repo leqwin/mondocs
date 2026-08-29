@@ -10,15 +10,16 @@ safe at runtime; the override tables and a few server keys are file-only.
 ## monloader.toml
 
 ```toml
+setup_done = false                       # first-run wizard gate
 [server]
-bind_address = "0.0.0.0:8081"
-base_url     = "http://localhost:8081"   # the address monloader advertises when pairing
+bind_address = "0.0.0.0:8456"
+base_url     = "http://localhost:8456"   # the address monloader advertises when pairing
 name         = ""                        # rebrand the UI; empty = monloader
 logo         = ""                        # path to an image; empty = the bundled logo
 custom_css   = ""                        # path to a stylesheet served at /custom.css
 
 [monbooru]
-api_url         = "http://monbooru:8080" # the monbooru instance
+api_url         = "http://monbooru:8455" # the monbooru instance
 api_token       = ""                     # set by pairing, or by hand for a manual setup
 web_url         = ""                     # browser-facing monbooru base for links; blank =
                                          # api_url for image links, monbooru link hidden
@@ -41,11 +42,11 @@ binary_path   = "gallery-dl"
 config_path   = "/config/gallery-dl.json"          # managed file the app writes
 archive_path  = "/config/gallery-dl-archive.sqlite"
 cookies_dir   = "/config/cookies"                  # per-site cookies files
+                        
 sleep_request = 1.0                      # seconds between requests (politeness)
 raw_config    = ""                       # optional JSON merged into the managed config
-supportedsites_path = "/usr/local/share/monloader/supportedsites.md"
-                                         # gallery-dl's site data, bundled in the image;
-                                         # seeds names and login kinds for new sites
+supportedsites_path = ""                 # override for gallery-dl's site data; blank uses the
+                                         # copy built into monloader at the pinned version
 
 [auth]
 enable_password       = false            # UI password, off by default
@@ -53,7 +54,8 @@ password_hash         = ""               # bcrypt hash; see API and development
 session_lifetime_days = 7
 
 [log]
-level = "warn"                           # warn / info / debug
+level = "warn"                           # warn / info / debug (a desktop
+                                         # install seeds "info")
 
 [ptr]                                    # the optional Hydrus PTR index
 enabled     = false
@@ -74,6 +76,10 @@ order = 2                                # chain position; uses the danbooru sit
 [lookup.saucenao]
 order   = 3
 api_key = ""                             # from saucenao.com account settings
+
+[desktop]                                # desktop installs only
+tray = true                              # show the tray icon where the build
+                                         # has one; need a restart
 
 [[sites]]                                # one block per configured site
 name         = "gelbooru"                # gallery-dl category
@@ -150,10 +156,9 @@ key:
 ## Updating gallery-dl
 
 The **advanced** section of the Settings page installs any gallery-dl release
-without waiting for a monloader update: the install lands in
-`/config/gallery-dl/` on the config volume, so it survives container
-and image updates, and one click reverts to the version bundled in the
-image.
+without waiting for a monloader update. The install lands in a
+`gallery-dl/` folder monloader keeps with its own files, so it survives updates, and
+one click reverts to the version monloader ships with.
 
 ## Raw gallery-dl passthrough
 
@@ -181,8 +186,8 @@ assets.
 
 `log.level`:
 
-- `warn` (default) - warnings, errors, and explicit mutations (logins,
-  settings saves).
+- `warn` (the default; a desktop install seeds `info`) - warnings, errors,
+  and explicit mutations (logins, settings saves).
 - `info` - adds one line per non-noisy HTTP request and the startup banner
   (gallery-dl version, extractor count, work dir).
 - `debug` - adds the 2-second queue poll, the connectivity-light check, and

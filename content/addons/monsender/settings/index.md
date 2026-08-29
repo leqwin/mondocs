@@ -12,7 +12,7 @@ your browser.
 ## monloader
 
 - **URL** - the base URL your browser reaches monloader at, for
-  example `http://localhost:8081` or `http://monloader.lan:8081`.
+  example `http://localhost:8456` or `http://monloader.lan:8456`.
   Saving asks the browser to allow access to that one origin, then
   tests the connection. Changing the URL clears the stored token
   ([setup](../getting-started/setup/index.md#if-you-change-the-url-later)).

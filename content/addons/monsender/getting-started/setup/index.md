@@ -9,8 +9,8 @@ pair with it.
 ## 1. Set the monloader URL
 
 In the extension options, enter the base URL your browser reaches
-monloader at: `http://localhost:8081` if it runs on the same machine,
-or a LAN address like `http://monloader.lan:8081`. Use the address as
+monloader at: `http://localhost:8456` if it runs on the same machine,
+or a LAN address like `http://monloader.lan:8456`. Use the address as
 you would type it in the address bar, scheme included; plain
 `http://` is fine on a home network.
 
@@ -24,7 +24,8 @@ warns that monloader cannot be reached until you allow it; click
 ## 3. Connect to monloader
 
 Click **connect to monloader**, then open monloader in another tab,
-go to **Settings -> monsender**, and approve the pending request.
+go to **Settings -> pairing**, and approve the pending request in the
+**monsender extension** block.
 
 ![The pairing request waiting in monloader](approve-request.png)
 

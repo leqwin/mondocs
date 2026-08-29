@@ -34,7 +34,7 @@ probed as they arrive, **Relations -> Find new pairs** scans
 everything added since the last scan, and a nightly pass can be
 scheduled under **Settings -> Schedule**. If older images predate
 perceptual hashing, run **Settings -> Maintenance -> Compute
-perceptual hashes** once to backfill.
+hashes** once to backfill.
 
 **Settings -> Relations -> pHash matching distance** (default 4,
 range 0..12) sets how different two images may be and still get

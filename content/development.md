@@ -34,7 +34,7 @@ The secret is shown once at creation and stored only as a hash.
 
 ```bash
 curl -H "Authorization: Bearer <token>" \
-     "http://localhost:8080/api/v1/images/search?q=1girl"
+     "http://localhost:8455/api/v1/images/search?q=1girl"
 ```
 
 Error codes to expect:
@@ -75,6 +75,10 @@ go build -o monbooru ./cmd/monbooru
 # With auto-tagger (requires the ONNX Runtime shared library):
 CGO_ENABLED=1 go build -tags tagger -o monbooru ./cmd/monbooru
 
+# With the Linux tray icon (needs GTK 3 and libayatana-appindicator;
+# no shipped build carries it):
+CGO_ENABLED=1 go build -tags tray -o monbooru ./cmd/monbooru
+
 ./monbooru -config /path/to/monbooru.toml
 ```
 
@@ -94,5 +98,11 @@ bundles ORT v1.21.0 and needs none of this.
 - `-config` - path to the TOML config file.
 - `-hash-password` - print a bcrypt hash of the given password and
   exit.
+- `-desktop` - the desktop profile: OS-native paths, a log file, a
+  browser at startup, the first-run setup. The desktop downloads have
+  it baked in; `-desktop=false` turns one back into a server build.
+- `-no-browser` - with `-desktop`, do not open a browser at startup.
+  For an install that runs headless but should keep its desktop paths.
+- `-version` - print the version and build stamp, and exit.
 - `healthcheck` - probe the local `/health` endpoint; exits 0 when
   healthy. Used by the Docker healthcheck.

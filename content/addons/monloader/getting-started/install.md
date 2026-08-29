@@ -3,25 +3,23 @@ title: Install
 weight: 10
 ---
 
-monloader runs as a container next to monbooru. It needs a monbooru
-instance to push into; nothing else is required to start. To bring up the
-whole stack from scratch, see the
+monloader needs a monbooru instance to push into; nothing else is required
+to start. To bring up the whole stack from scratch, see the
 [quick start](../../quick-start.md).
 
-## Quick start
+## Quick start (Docker)
 
-monloader ships as a commented-out service in monbooru's
-`docker/docker-compose.yml`, so enabling it there puts the two containers on
+monloader ships as a service in monbooru's
+`docker/docker-compose.yml`, so starting it there puts the two containers on
 one network with no extra wiring.
 
-1. Uncomment the `monloader` service in monbooru's compose file and start
-   it:
+1. Start it from monbooru's compose file:
 
    ```bash
    docker compose up -d monloader
    ```
 
-2. Open `http://localhost:8081`. The shipped compose publishes the port on
+2. Open `http://localhost:8456`. The shipped compose publishes the port on
    `127.0.0.1` only; to reach monloader from another machine on your
    network, adjust the `ports:` line.
 3. Pair it with monbooru: see [pairing](pairing/index.md). Approving the
@@ -30,10 +28,32 @@ one network with no extra wiring.
 5. Paste a URL into the command bar on the home screen and press Enter. The
    [downloading guide](../guides/downloading/index.md) explains what happens next.
 
-On first run monloader writes `/config/monloader.toml` with defaults, plus a
-managed `gallery-dl.json` next to it. Most settings are editable from the
+On first run monloader writes `monloader.toml` with defaults, plus a managed
+`gallery-dl.json`. Most settings are editable from the
 Settings page; the full reference, including the environment variables that
 override any TOML key, is in [configuration](../configuration.md).
+
+## Quick start (desktop)
+
+Download a **desktop** build for your system from the
+[releases page](https://github.com/monbooru/monloader/releases), unpack it,
+and run it. 
+
+### Where your files go
+
+| | Linux | Windows |
+|---|---|---|
+| Settings and site profiles | `~/.config/monloader` | `%AppData%\monloader` |
+| Queue, cookies, gallery-dl's config, archive and managed install | `~/.local/share/monloader` | `%LocalAppData%\monloader` |
+| Log file | `~/.local/share/monloader/logs` | `%LocalAppData%\monloader\logs` |
+| PTR index | `~/.local/share/monloader/ptr` | `%LocalAppData%\monloader\ptr` |
+
+A Flatpak install keeps all of those under
+`~/.var/app/io.github.monbooru.Monloader/`.
+
+If you put a `monloader.toml` next to the program before starting it,
+monloader uses that one and keeps its data in a `data` folder beside it
+too. That makes the whole install portable.
 
 ## Volumes
 

@@ -39,7 +39,7 @@ token.
 
 ```bash
 curl -H "Authorization: Bearer <token>" \
-     -X POST http://localhost:8081/api/v1/queue \
+     -X POST http://localhost:8456/api/v1/queue \
      -d '{"url":"https://danbooru.donmai.us/posts/xxx"}'
 ```
 
@@ -71,12 +71,16 @@ monsender extension can branch on them:
 | `hash_not_found` | a hash lookup found no site (or the PTR index) holding the hash |
 | `ptr_unavailable` | a PTR lookup was requested while the PTR backend is off; normally refused as a 409 when the lookup is enqueued |
 | `ptr_syncing` | a PTR lookup was requested while the index is still building; normally refused as a 409 when the lookup is enqueued |
+| `ptr_account_required` | a PTR contribution ran without a personal account key, or with one the PTR does not accept for contributing |
+| `ptr_banned` | the PTR reports the configured account as banned |
 | `already_exists` | a replace job's downloaded file already exists in the gallery as another image; monbooru refuses the swap and records the two as a potential-duplicate pair instead |
 | `wrong_type` | a replace job aimed at an image whose row is an archive or video, which cannot be swapped this way |
 | `canceled` | the job was canceled while the item was in flight |
 
 The job's `summary` aggregates its items:
-`{ created, duplicate, enriched, matched, replaced, skipped, failed, canceled, total }`.
+`{ created, duplicate, enriched, matched, replaced, skipped, archived, failed, canceled, total }`.
+`archived` is the part of `skipped` that gallery-dl's download archive
+passed over, which is what the queue row's force download re-fetches.
 The outcomes themselves are described in
 [downloading](guides/downloading/index.md#per-item-outcomes).
 
@@ -101,6 +105,10 @@ CLI flags and subcommands:
 
 - `-config` - path to the TOML config file (default `./monloader.toml`).
 - `-hash-password '...'` - print a bcrypt hash for the UI password and exit.
+- `-desktop` - the desktop profile: OS-native paths, a log file, a browser
+  at startup, the first-run setup. The desktop downloads have it baked in;
+  `-desktop=false` turns one back into a server build.
+- `-no-browser` - with `-desktop`, do not open a browser at startup.
 - `-version` - print the version and exit.
 - `healthcheck` - probe the local `/health` endpoint and exit non-zero if it
   is not healthy (accepts `-config` and `-timeout`).

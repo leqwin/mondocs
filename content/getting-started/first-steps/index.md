@@ -12,8 +12,10 @@ links point there.
 
 Two ways in:
 
-- **Copy files into the watched folder.** The default gallery reads
-  `/gallery` (whatever host folder you mounted there). Copy files in,
+- **Copy files into the watched folder.** The default gallery is the
+  folder you pointed setup at - a desktop install offers
+  `Pictures/monbooru`, a container reads `/gallery` (whatever host
+  folder you mounted there). Copy files in,
   and the watcher indexes them within seconds. Files that were already
   in the folder before monbooru started are picked up by a sync: click
   the sync icon at the top right. Subfolders are fine; monbooru keeps

@@ -67,6 +67,19 @@ duplicates tool under **Relations -> Duplicates**; see
 The scheduler runs through every gallery in turn. If a job is already
 running at fire time, the run is skipped silently.
 
+**When it runs** matters on a machine that sleeps. A server is awake at
+01:00; a laptop usually is not, and a run that never fires says nothing
+about it. Four choices:
+
+| Choice | What happens |
+|---|---|
+| Every day at the time above | The plain daily run. A missed one is skipped |
+| ...and at startup if a day was missed | The same, plus one run five minutes after starting when the last one fell on an earlier day |
+| At startup only | No clock at all. One run per day, five minutes after you start monbooru |
+| Never | Nothing runs, whatever is ticked above |
+
+**Run now** starts the same pass immediately.
+
 ## Stats
 
 **Settings -> Stats** is a read-only diagnostic block: process memory

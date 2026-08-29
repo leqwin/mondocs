@@ -16,10 +16,10 @@ monloader side).
 ## Pair with monbooru
 
 1. In monloader, go to **Settings -> monbooru** and confirm the **api url**.
-   The default `http://monbooru:8080` works when both containers share
+   The default `http://monbooru:8455` works when both containers share
    monbooru's compose network.
 2. In the **pairing** section, click **connect to monbooru**.
-3. In monbooru, approve the pending request in its monloader settings.
+3. In monbooru, approve the pending request under **Settings -> Plugins**.
 
    ![The pairing request waiting for approval in monbooru](approve-request.png)
 

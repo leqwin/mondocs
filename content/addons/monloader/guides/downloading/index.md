@@ -76,9 +76,10 @@ you asked for as a unit and always come down whole.
   flight end as canceled, finished ones keep their outcome. **cancel
   pending** does the same to every job that has not started yet.
 
-The queue survives a restart: jobs that were still waiting resume, and a
-job that was mid-download when the app stopped comes back marked
-**interrupted**.
+The queue does not run on across a stop: stopping or restarting monloader
+cancels every job that had not finished, and the rows stay in the queue
+for a retry next time. A job that was mid-download then comes back marked
+**interrupted**, with a one-click requeue rather than an automatic one.
 
 Finished rows get automatically removed after the delay windows set in  **Settings -> downloads**. You can set different windows for successful downloads and failed ones. Set
 either to 0 to turn it off; in any case, rows still get removed once the queue's max limit of 100 pushes them out.
@@ -88,8 +89,7 @@ either to 0 to turn it off; in any case, rows still get removed once the queue's
 The pause button (also in the monsender popup) holds all downloads
 globally: the job in flight finishes, then nothing new starts until you
 resume. Use it to queue up a batch before letting it run. The pause does
-not survive a restart: a restarted monloader starts unpaused, so anything
-still pending begins downloading again.
+not survive a restart: a restarted monloader starts unpaused.
 
 ## Pools and manga
 

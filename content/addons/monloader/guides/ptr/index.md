@@ -36,11 +36,13 @@ re-synced at any time.
 
 ![The PTR page before enabling](ptr-disabled.png)
 
-1. Mount a dedicated volume at `/ptr` (there is a commented block in the
-   shipped `docker-compose.yml` and `monloader.container`). The PTR page
-   warns while the data path does not exist: without a volume mounted there,
-   the index lands inside the container and is lost when the container is
-   recreated.
+1. Point the index somewhere that exists. A desktop install already has a
+   `ptr` folder beside its own data, so there is nothing to do here unless
+   that disk is short on space; in Docker, mount a dedicated volume at
+   `/ptr` (there is a commented block in the shipped `docker-compose.yml`
+   and `monloader.container`). Either way, **data path** in the settings ptr
+   section takes any folder on a disk with room. An index built inside a
+   container is lost when the container is recreated.
 2. Open **PTR** in the top bar, check your free space against what the
    initial sync needs, and click **enable ptr sync**. Catching up takes
    days; you can **pause** and **resume** at any time and it picks up

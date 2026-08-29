@@ -16,10 +16,13 @@ tagger later without touching manual tags.
 
 1. Open **Settings -> Auto-Tagger** and click **Install** on one of
    the suggested models (WD14 SwinV2, animetimm EVA02, JoyTag, Camie
-   v2). The dialog has shell snippets for both a host install and a
-   `docker exec` install.
-2. Run the snippet on a machine with internet access. It drops the
-   model files into the `models` volume.
+   v2).
+2. On a desktop install the dialog gives you a download link per file
+   and a button that opens the folder they belong in. Save them there
+   under the names they download with. On Docker it gives you shell
+   snippets instead, for a host install or a `docker exec` install; run
+   one on a machine with internet access and it drops the files into the
+   `models` volume.
 3. Refresh the Settings page and click **Enable** on the row.
 
 ![The taggers list with one model installed and enabled](taggers-table.png)

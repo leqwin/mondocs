@@ -12,24 +12,23 @@ monsender extension to a monbooru you already run.
 
 If it is not running yet, follow
 [installing monbooru](../getting-started/install.md), then
-open `http://localhost:8080` and check that you can access it.
+open `http://localhost:8455` and check that you can access it.
 
 ## 2. Start monloader
 
-monloader ships as a commented-out service in monbooru's
-`docker/docker-compose.yml`, already on the same network. Uncomment it
-and start it:
+monloader ships as a service in monbooru's
+`docker/docker-compose.yml`, already on the same network. Start it:
 
 ```bash
 docker compose up -d monloader
 ```
 
-Then open `http://localhost:8081`.
+Then open `http://localhost:8456`.
 
 ## 3. Pair monloader with monbooru
 
 1. In monloader, go to **Settings -> monbooru**. The default api url
-   `http://monbooru:8080` is right for the shared compose network.
+   `http://monbooru:8455` is right for the shared compose network.
 2. In the **pairing** section below, click **connect to monbooru**.
 3. In monbooru, open **Settings -> Plugins** and approve the request.
 4. Back in monloader, pick a **default gallery** and save.
@@ -45,9 +44,9 @@ page; the image lands in monbooru with its tags.
 1. [Install monsender](monsender/getting-started/install.md) in
    Firefox or Chrome.
 2. In the extension options, set the monloader URL - the address your
-   browser reaches it at, so `http://localhost:8081` on the same
+   browser reaches it at, so `http://localhost:8456` on the same
    machine, or your server's LAN address like
-   `http://monloader.lan:8081`.
+   `http://monloader.lan:8456`.
 3. Click **connect to monloader**, then approve the request in
    monloader under **Settings -> pairing**.
 

@@ -29,7 +29,7 @@ the gallery files - everything flows through monbooru's API. monloader is
 intended for your local network; its UI is not designed to be exposed to the
 public internet.
 
-- [Install](getting-started/install.md) - run it in Docker or Podman next to monbooru.
+- [Install](getting-started/install.md) - - [Install](getting-started/install.md) - via docker or binaries.
 - [Pairing](getting-started/pairing/index.md) - connect it to monbooru and to the monsender extension.
 - [Downloading](guides/downloading/index.md) - the queue, outcomes, retries, pools and manga.
 - [Sites and credentials](guides/sites/index.md) - site profiles, logins, cookies files.

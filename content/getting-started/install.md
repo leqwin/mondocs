@@ -9,7 +9,7 @@ weight: 10
    edit the volume paths so `/gallery`, `/data`, `/config` and
    `/models` map to your folders.
 2. `docker compose up -d`
-3. Open `http://localhost:8080`.
+3. Open `http://localhost:8455`.
 
 On first start monbooru creates a config file with defaults at
 `/config/monbooru.toml`. Most settings are editable from the Settings
@@ -59,7 +59,40 @@ The Docker image has a built-in healthcheck: the
 `monbooru healthcheck` subcommand probes the local `/health` endpoint
 and exits 0 when the server answers. `docker ps` shows the container
 as `healthy` once the app is up; you can point your own monitoring at
-`GET /health`, which returns `{"status":"ok","version":"..."}`.
+`GET /health`, which returns `{"app":"monbooru","status":"ok","version":"..."}`.
+
+## Quick start (desktop)
+
+Download a **desktop** build for your system from the
+[releases page](https://github.com/monbooru/monbooru/releases), unpack it,
+and run it. A browser opens on a short setup page.
+
+Downloads come on two axes, and the filename says which is which:
+
+| Axis | What you get |
+|---|---|
+| desktop or server | **desktop** opens automatically in a browser, keeps its files where your system puts a user's files. **server** keeps the defaults meant for a machine you run it on and reach from elsewhere. |
+| lite or bundled | **lite** is one binary. Video thumbnails need ffmpeg installed yourself; auto-tagging needs ONNX Runtime. **bundled** adds ffmpeg and the ONNX Runtime, so video previews and local auto-tagging work out of the box. |
+
+On Windows each desktop build also ships as an installer, which is the
+same files plus Start Menu and desktop shortcuts; on Linux the Flatpak is
+the desktop bundled build inside a sandbox.
+
+### Where your files go
+
+| | Linux | Windows |
+|---|---|---|
+| Settings, plugins, themes | `~/.config/monbooru` | `%AppData%\monbooru` |
+| Database and thumbnails | `~/.local/share/monbooru` | `%LocalAppData%\monbooru` |
+| Log file | `<database folder>/logs` | `<database folder>\logs` |
+| Your images | wherever you pointed setup | same |
+
+A Flatpak install keeps its own copies of the first three under
+`~/.var/app/io.github.monbooru.Monbooru/`. 
+
+If you put a `monbooru.toml` next to the program before starting it,
+monbooru uses that one and keeps its database in a `data` folder beside it
+too. That makes the whole install portable.
 
 ## Next
 

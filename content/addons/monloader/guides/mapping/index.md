@@ -103,7 +103,7 @@ only, so images already in monbooru keep the source they were pushed with.
 
 Danbooru-family posts carry the artist's commentary, and some families
 carry positional note boxes overlaid on the image; both are pushed along,
-notes with their pixel coordinates and reduced to plain text. Most boorus
+notes with their pixel coordinates and formatting. Most boorus
 also declare the post's original source - the upstream artist URL, such as
 a Pixiv or Twitter page - and monloader pushes it as the origin's original
 source. monbooru overwrites a source's commentary, original source, and
